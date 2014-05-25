@@ -30,6 +30,6 @@ $(document).ready(function() {
 
     var skr = skrollr.init({
 	forceHeight: false
-    );
+    });
     skr.refresh(slides);
 }); 
