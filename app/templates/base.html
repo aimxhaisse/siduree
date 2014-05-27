@@ -25,18 +25,24 @@
 
     <div class="container">
       <div class="header">
-        <ul class="nav inverse nav-pills pull-right"> 
+        <ul class="nav nav-pills pull-right"> 
 
           <li class="{% if active_page == 'user' %}active{% endif %}">
-	    <a href="{{ url_for('login') }}">Login</a>
+	    <a href="{{ url_for('login') }}">
+	      <span class="glyphicon glyphicon-user"></span>
+	    </a>
 	  </li>
 
           <li class="{% if active_page == 'about' %}active{% endif %}">
-	    <a href="{{ url_for('about') }}">About</a>
+	    <a href="{{ url_for('about') }}">
+	      <span class="glyphicon glyphicon-info-sign"></span>
+	    </a>
 	  </li>
 
           <li class="{% if active_page == 'home' %}active{% endif %}">
-	    <a href="{{ url_for('index') }}">Home</a>
+	    <a href="{{ url_for('index') }}">
+	      <span class="glyphicon glyphicon-home"></span>
+	    </a>
 	  </li>
 
         </ul>
