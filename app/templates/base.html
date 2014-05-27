@@ -1,3 +1,4 @@
+{% set active_page = active_page | default('home') %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,18 +26,24 @@
     <div class="container">
       <div class="header">
         <ul class="nav inverse nav-pills pull-right"> 
-          <li><a href="#">Login</a></li>
-          <li><a href="#">About</a></li>
-          <li class="active"><a href="#">Home</a></li>
+
+          <li class="{% if active_page == 'user' %}active{% endif %}">
+	    <a href="{{ url_for('login') }}">Login</a>
+	  </li>
+
+          <li class="{% if active_page == 'about' %}active{% endif %}">
+	    <a href="{{ url_for('about') }}">About</a>
+	  </li>
+
+          <li class="{% if active_page == 'home' %}active{% endif %}">
+	    <a href="{{ url_for('index') }}">Home</a>
+	  </li>
+
         </ul>
         <h3 class="text-muted">Siduree!</h3>
       </div>
 
       {% block content %}{% endblock %}
-
-      <div class="container">
-	<h2>Highlight on <small>Lost In Norway by <a href="#">mxs</a></small></h2>
-      </div>
 
       <div class="footer">
         <p>&copy; Siduree 2014</p>
