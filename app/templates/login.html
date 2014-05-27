@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>Sign In</h1>
+  <form role="form" action="" method="post" name="login" class="form-horizontal">
+
+    {{form.hidden_tag()}}
+    <div class="form-group">
+      <label for="form-login" class="control-label col-sm-3">Login</label>
+      <div class="col-sm-9">
+	{{form.login(class='form-control input-lg', id='form-login', placeholder='Enter Login')}}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="form-password" class="control-label col-sm-3">Password</label>
+      <div class="col-sm-9">
+	{{form.password(class='form-control input-lg', id='form-password', placeholder='Enter Password')}}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+      <button type="submit" class="btn btn-default btn-lg">Login</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
