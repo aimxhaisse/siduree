@@ -6,7 +6,7 @@ from wtforms.validators import EqualTo
 
 class LoginForm(Form):
     login = TextField('Login', [Required()])
-    password = PasswordField('Password', [Required(), EqualTo('again', message='Passwords must match')])
+    password = PasswordField('Password', [Required()])
 
 class RegisterForm(Form):
     login = TextField('Login', [Required()])

@@ -1,7 +1,8 @@
 from app import app
-from flask import render_template, request, url_for, flash
+from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
 from misc import flash_errors
+from models import User
 
 @app.route('/')
 def index():
@@ -11,11 +12,11 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        u = User.auth(form.login, form.password)
+        u = User.auth(form.data['login'], form.data['password'])
         if u:
-            login_user(u)
-            flash('Logged in successfully.')
+            flash('Logged in successfully.', 'success')
             return redirect(url_for('index'))
+        flash('Login and password don\'t match', 'danger')
     flash_errors(form)
     return render_template('login.html', form = form, title = 'Sign In')
 

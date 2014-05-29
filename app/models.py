@@ -11,8 +11,8 @@ class User(db.Model):
 
     @staticmethod
     def auth(login, password):
-        u = User.query.filter(login = login).first()
-        if u and sha512(password + u.salt).hexdigest() == user.hashed_password:
+        u = User.query.filter(User.login == login).first()
+        if u and sha512(password + u.salt).hexdigest() == u.hashed_password:
             return u
         return None
 
