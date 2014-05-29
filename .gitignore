@@ -1,2 +1,5 @@
 *.pyc
 __pycache__
+siduree.db
+flask
+db_repository
