@@ -37,7 +37,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully', 'success')
+    flash('Logged out successfully.', 'success')
     return redirect('/')
 
 @app.route('/register', methods = ['GET', 'POST'])
@@ -46,15 +46,13 @@ def register():
         return redirect(request.referrer or '/')
     form = RegisterForm()
     if form.validate_on_submit():
-        try:
-            u = User(form.data['login'], form.data['password'], form.data['email'])
-            db.session.add(u)
-            db.session.commit()
-            u.auth(form.data['login'], form.data['password'])
-        except:
-            flash('unable to create account, this login or email address is already in use', 'danger')
-            return render_template('register.html', form = form, title = 'Register')
-        return redirect('index')
+        u = User()
+        u.create(form.data['login'], form.data['email'], form.data['password'])
+        db.session.add(u)
+        db.session.commit()
+        login_user(u)
+        flash('Account successfully created.', 'success')
+        return redirect(url_for('index'))
     flash_errors(form)
     return render_template('register.html', form = form, title = 'Register')
 

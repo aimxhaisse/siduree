@@ -14,7 +14,7 @@ class User(db.Model):
     def create(self, login, email, password):
         self.login = login
         self.salt = uuid4().hex
-        self.hashed_password = sha512(password + u.salt).hexdigest()
+        self.hashed_password = sha512(password + self.salt).hexdigest()
         self.email = email
 
     def auth(self, login, password):

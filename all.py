@@ -2,14 +2,15 @@
 
 import argparse
 import subprocess
-from app import db
+from app import db, models
 
 parser = argparse.ArgumentParser()
 parser.add_argument("command", help = "[dev-init]")
 args = parser.parse_args();
 
 def default_user():
-    u = models.User('mxs', 'mxs', 'mxs@sbrk.org')
+    u = models.User()
+    u.create('mxs', 'mxs', 'mxs@sbrk.org')
     db.session.add(u)
     db.session.commit()
 
