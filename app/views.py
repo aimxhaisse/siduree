@@ -1,10 +1,12 @@
 from app import app, db, login_manager
 from flask.ext.login import login_url
 from flask import render_template, request, url_for, flash, redirect
-from forms import LoginForm, RegisterForm, NewJourneyForm, NewSlideForm
+from forms import LoginForm, RegisterForm, NewJourneyForm, NewSlideForm, DeleteJourneyForm
 from misc import flash_errors
 from models import User, Journey, Slide
 from flask.ext.login import login_required, login_user, logout_user, current_user
+
+BAD_KITTY = 'Hey! Don\'t try that again!'
 
 # Main pages
 @app.route('/')
@@ -30,26 +32,37 @@ def new_journey():
     flash_errors(form)
     return render_template('new-journey.html', form = form, title = 'New Journey')
 
+@app.route('/delete-journey', methods = ['GET', 'POST'])
+@login_required
+def delete_journey():
+    jid = request.args.get('jid') or -1
+    journey = Journey.query.filter_by(id = jid, user_id = current_user.id).first()
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    form = DeleteJourneyForm(journey_id = jid)
+    if form.validate_on_submit():
+        if not journey:
+            flash(BAD_KITTY, 'danger')
+            return redirect(url_for('index'))
+        Journey.query.filter(Journey.id == jid).delete()
+        db.session.commit()
+        flash('Journey successfully deleted.', 'success')
+        return redirect(url_for('me'))
+
+    return render_template('delete-journey.html', form = form, journey = journey, title = 'Delete journey %s' % journey.title)
+
 # Slides
 @app.route('/new-slide', methods = ['GET', 'POST'])
 @login_required
 def new_slide():
-    jid = request.args.get('jid') or None
+    jid = request.args.get('jid') or -1
     form = NewSlideForm(journey_id = jid)
     if form.validate_on_submit():
-
-        # make sure the journey is owned by the user
-        is_this_illegal = False
-        if jid:
-            j = Journey.query.filter_by(id = jid).first()
-            if not j or j.user_id != current_user.id:
-                is_this_illegal = True
-        else:
-            is_this_illegal = True
-        if is_this_illegal:
-            flash('Hey! Don\'t try that again!', 'danger')
+        j = Journey.query.filter_by(id = jid, user_id = current_user.id).first()
+        if not j:
+            flash(BAD_KITTY, 'danger')
             return redirect(url_for('index'))
-
         s = Slide()
         s.create(form.data['title'], form.data['description'], form.data['journey_id'])
         db.session.add(s)
