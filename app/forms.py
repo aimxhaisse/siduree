@@ -42,3 +42,10 @@ class EditSlideForm(Form):
     slide_id = HiddenField('Slide', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+
+# Photos
+
+class NewPhotoForm(Form):
+    title = TextField('Title', [Required()])
+    slide_id = HiddenField('Slide', [Required()])
+    description = TextAreaField('Description')

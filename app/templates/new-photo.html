@@ -2,7 +2,7 @@
 {% set active_page = 'user' %}
 {% block content %}
 <div class="container">
-  <h1>Edit Slide <small>{{ slide.title }}</small></h1>
+  <h1>New Photo <small>Step 3/3</small></h1>
 
   <form role="form" action="" method="post" name="login" class="form-horizontal">
 
@@ -22,37 +22,10 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">
-	<button type="submit" class="btn btn-default btn-lg">Update Slide</button>
+	<button type="submit" class="btn btn-default btn-lg">Create Photo</button>
       </div>
     </div>
   </form>
-
-  <h2>Photos</h2>
-  {% if photos %}
-  <table class="table-bordered table">
-    <thead>
-      <tr>
-	<th>Title</th>
-	<th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for photo in photos %}
-      <tr>
-	<td>{{ photo.title }}</td>
-	<td>
-	  <a href="#"><span class="glyphicon glyphicon-off"></span></a>
-	  <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
-	  <a href="#"><span class="glyphicon glyphicon-home"></span></a>
-	</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p>You don't have any photo (yet).</p>
-  {% endif %}
-  <a class="btn btn-lg btn-success" href="{{ url_for('new_photo', slide_id = slide.id) }}" role="button">Add a New Photo to this Slide</a>
 
 </div>
 {% endblock %}

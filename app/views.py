@@ -4,8 +4,9 @@ from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
 from forms import NewJourneyForm, EditJourneyForm, DeleteJourneyForm
 from forms import NewSlideForm, EditSlideForm, DeleteSlideForm
+from forms import NewPhotoForm
 from misc import flash_errors
-from models import User, Journey, Slide
+from models import User, Journey, Slide, Photo
 from flask.ext.login import login_required, login_user, logout_user, current_user
 
 BAD_KITTY = 'Hey! Don\'t try that again!'
@@ -152,8 +153,39 @@ def edit_slide():
         flash('Slide successfully updated.', 'success')
         return redirect(url_for('edit_journey', jid = journey.id))
 
+    photos = Photo.query.filter_by(slide_id = slide_id)
+
     flash_errors(form)
-    return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide)
+    return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide, photos = photos)
+
+# PHOTOS
+
+@app.route('/new-photo', methods = ['GET', 'POST'])
+@login_required
+def new_photo():
+    slide_id = request.args.get('slide_id') or -1
+
+    slide = Slide.query.filter_by(id = slide_id).first()
+    if not slide:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = NewPhotoForm(slide_id = slide_id)
+
+    if form.validate_on_submit():
+        photo = Photo()
+        photo.create(form.data['title'], form.data['description'], slide_id)
+        db.session.add(photo)
+        db.session.commit()
+        flash('Photo added to slide', 'success')
+        return redirect(url_for('edit_slide', slide_id = slide_id))
+
+    flash_errors(form)
+    return render_template('new-photo.html', form = form, title = 'New Photo')
 
 # USERS
 
