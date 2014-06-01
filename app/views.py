@@ -34,8 +34,22 @@ def new_journey():
 @app.route('/new-slide', methods = ['GET', 'POST'])
 @login_required
 def new_slide():
-    form = NewSlideForm(journey_id = request.args.get('jid') or None)
+    jid = request.args.get('jid') or None
+    form = NewSlideForm(journey_id = jid)
     if form.validate_on_submit():
+
+        # make sure the journey is owned by the user
+        is_this_illegal = False
+        if jid:
+            j = Journey.query.filter_by(id = jid).first()
+            if not j or j.user_id != current_user.id:
+                is_this_illegal = True
+        else:
+            is_this_illegal = True
+        if is_this_illegal:
+            flash('Hey! Don\'t try that again!', 'danger')
+            return redirect(url_for('index'))
+
         s = Slide()
         s.create(form.data['title'], form.data['description'], form.data['journey_id'])
         db.session.add(s)
