@@ -20,13 +20,13 @@ class NewJourneyForm(Form):
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
 
-class DeleteJourneyForm(Form):
-    journey_id = HiddenField('Journey', [Required()])
-
 class EditJourneyForm(Form):
     journey_id = HiddenField('Journey', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+
+class DeleteJourneyForm(Form):
+    journey_id = HiddenField('Journey', [Required()])
 
 # Slides
 
@@ -35,17 +35,22 @@ class NewSlideForm(Form):
     journey_id = HiddenField('Journey', [Required()])
     description = TextAreaField('Description')
 
-class DeleteSlideForm(Form):
-    slide_id = HiddenField('Slide', [Required()])
-
 class EditSlideForm(Form):
     slide_id = HiddenField('Slide', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+
+class DeleteSlideForm(Form):
+    slide_id = HiddenField('Slide', [Required()])
 
 # Photos
 
 class NewPhotoForm(Form):
     title = TextField('Title', [Required()])
     slide_id = HiddenField('Slide', [Required()])
+    description = TextAreaField('Description')
+
+class EditPhotoForm(Form):
+    photo_id = HiddenField('Photo', [Required()])
+    title = TextField('Title', [Required()])
     description = TextAreaField('Description')

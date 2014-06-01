@@ -4,7 +4,7 @@ from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
 from forms import NewJourneyForm, EditJourneyForm, DeleteJourneyForm
 from forms import NewSlideForm, EditSlideForm, DeleteSlideForm
-from forms import NewPhotoForm
+from forms import NewPhotoForm, EditPhotoForm
 from misc import flash_errors
 from models import User, Journey, Slide, Photo
 from flask.ext.login import login_required, login_user, logout_user, current_user
@@ -186,6 +186,34 @@ def new_photo():
 
     flash_errors(form)
     return render_template('new-photo.html', form = form, title = 'New Photo')
+
+@app.route('/edit-photo', methods = ['GET', 'POST'])
+@login_required
+def edit_photo():
+    photo_id = request.args.get('photo_id') or -1
+
+    photo = Photo.query.filter_by(id = photo_id).first()
+    if not photo:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    slide = Slide.query.filter_by(id = photo.slide_id).first()
+    if not slide:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = EditPhotoForm(photo_id = photo_id, title = photo.title, description = photo.description)
+
+    if form.validate_on_submit():
+        # @todo: see how SQLAlchemy deals with this
+        flash('Photo successfully updated.', 'success')
+        return redirect(url_for('edit_slide', slide_id = slide.id))
+
+    flash_errors(form)
+    return render_template('edit-photo.html', form = form, title = 'Edit photo %s' % photo.title, photo = photo)
 
 # USERS
 

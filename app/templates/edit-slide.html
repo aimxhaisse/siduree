@@ -41,8 +41,8 @@
       <tr>
 	<td>{{ photo.title }}</td>
 	<td>
-	  <a href="#"><span class="glyphicon glyphicon-off"></span></a>
-	  <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
+	  <a href=""><span class="glyphicon glyphicon-off"></span></a>
+	  <a href="{{ url_for('edit_photo', photo_id = photo.id) }}"><span class="glyphicon glyphicon-edit"></span></a>
 	  <a href="#"><span class="glyphicon glyphicon-home"></span></a>
 	</td>
       </tr>
