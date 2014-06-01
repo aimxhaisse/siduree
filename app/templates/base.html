@@ -27,8 +27,16 @@
       <div class="header">
         <ul class="nav nav-pills pull-right"> 
 
+	  {% if current_user.is_authenticated() %}
+          <li>
+	    <a href="{{ url_for('logout') }}">
+	      <span class="glyphicon glyphicon-off"></span>
+	    </a>
+	  </li>
+	  {% endif %}
+
           <li class="{% if active_page == 'user' %}active{% endif %}">
-	    <a href="{{ url_for('login') }}">
+	    <a href="{% if current_user.is_authenticated() %}{{ url_for('me') }}{% else %}{{ url_for('login') }}{% endif %}">
 	      <span class="glyphicon glyphicon-user"></span>
 	    </a>
 	  </li>

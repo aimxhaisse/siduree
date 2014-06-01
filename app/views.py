@@ -1,13 +1,22 @@
-from app import app, db
+from app import app, db, login_manager
+from flask.ext.login import login_url
 from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
 from misc import flash_errors
 from models import User
 from flask.ext.login import login_required, login_user, logout_user, current_user
 
+# Main pages
+
 @app.route('/')
 def index():
     return render_template('index.html', title = 'Welcome!')
+
+@app.route('/about', methods = ['GET'])
+def about():
+    return render_template('about.html', form = RegisterForm(), title = 'About')
+
+# User management
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -49,6 +58,12 @@ def register():
     flash_errors(form)
     return render_template('register.html', form = form, title = 'Register')
 
-@app.route('/about', methods = ['GET'])
-def about():
-    return render_template('about.html', form = RegisterForm(), title = 'About')
+@app.route('/me', methods = ['GET', 'POST'])
+@login_required
+def me():
+    return render_template('me.html', title = 'My Account')
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash('You need to sign in to access this page', 'danger')
+    return redirect(login_url(url_for('login'), request.url))
