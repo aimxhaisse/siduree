@@ -27,5 +27,32 @@
     </div>
   </form>
 
+  <h2>Slides</h2>
+  {% if slides %}
+  <table class="table-bordered table">
+    <thead>
+      <tr>
+	<th>Title</th>
+	<th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for slide in slides %}
+      <tr>
+	<td>{{ slide.title }}</td>
+	<td>
+	  <a href="{{ url_for('delete_slide', slide_id = slide.id) }}"><span class="glyphicon glyphicon-off"></span></a>
+	  <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
+	  <a href="#"><span class="glyphicon glyphicon-home"></span></a>
+	</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>You don't have any slide (yet).</p>
+  {% endif %}
+  <a class="btn btn-lg btn-success" href="{{ url_for('new_slide', jid = journey.id) }}" role="button">Add a New Slide to this Journey</a>
+
 </div>
 {% endblock %}
