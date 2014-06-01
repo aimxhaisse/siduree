@@ -12,6 +12,7 @@ db = SQLAlchemy(app)
 
 # login manager (flask-login)
 login_manager = LoginManager()
+login_manager.login_view = 'views.login'
 login_manager.init_app(app)
 
 from app import views, models, misc

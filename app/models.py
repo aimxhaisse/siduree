@@ -8,24 +8,38 @@ class User(db.Model):
     email = db.Column(db.String(128), unique = True)
     hashed_password = db.Column(db.String(64))
     salt = db.Column(db.String(64))
+    is_authenticated = False
+    is_active = True
 
-    @staticmethod
-    def auth(login, password):
+    def create(self, login, email, password):
+        self.login = login
+        self.salt = uuid4().hex
+        self.hashed_password = sha512(password + u.salt).hexdigest()
+        self.email = email
+
+    def auth(self, login, password):
         u = User.query.filter(User.login == login).first()
         if u and sha512(password + u.salt).hexdigest() == u.hashed_password:
-            return u
-        return None
+            self.id = u.id
+            self.login = u.login
+            self.email = u.email
+            self.hashed_password = u.hashed_password
+            self.salt = u.salt
+            self.is_authenticated = True
+            return True
+        return False
 
-    @staticmethod
-    def new(login, password, email):
-        u = User()
-        u.login = login
-        u.salt = uuid4().hex
-        u.hashed_password = sha512(password + u.salt).hexdigest()
-        u.email = email
-        db.session.add(u)
-        db.session.commit()
-        return u
+    def is_authenticated(self):
+        return self.is_authenticated
+
+    def is_active(self):
+        return self.is_active
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
     def __repr__(self):
         return '<User %s>' % self.login
