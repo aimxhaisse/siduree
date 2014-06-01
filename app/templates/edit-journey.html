@@ -52,7 +52,7 @@
   {% else %}
   <p>You don't have any slide (yet).</p>
   {% endif %}
-  <a class="btn btn-lg btn-success" href="{{ url_for('new_slide', jid = journey.id) }}" role="button">Add a New Slide to this Journey</a>
+  <a class="btn btn-lg btn-success" href="{{ url_for('new_slide', journey_id = journey.id) }}" role="button">Add a New Slide to this Journey</a>
 
 </div>
 {% endblock %}

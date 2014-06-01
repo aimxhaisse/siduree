@@ -54,3 +54,6 @@ class EditPhotoForm(Form):
     photo_id = HiddenField('Photo', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+
+class DeletePhotoForm(Form):
+    photo_id = HiddenField('Photo', [Required()])

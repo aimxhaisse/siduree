@@ -4,7 +4,7 @@ from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
 from forms import NewJourneyForm, EditJourneyForm, DeleteJourneyForm
 from forms import NewSlideForm, EditSlideForm, DeleteSlideForm
-from forms import NewPhotoForm, EditPhotoForm
+from forms import NewPhotoForm, EditPhotoForm, DeletePhotoForm
 from misc import flash_errors
 from models import User, Journey, Slide, Photo
 from flask.ext.login import login_required, login_user, logout_user, current_user
@@ -34,7 +34,7 @@ def new_journey():
         db.session.add(journey)
         db.session.commit()
         flash('Journey %s successfully created.' % journey.title, 'success')
-        return redirect(url_for('new_slide', jid = journey.id))
+        return redirect(url_for('new_slide', journey_id = journey.id))
 
     flash_errors(form)
     return render_template('new-journey.html', form = form, title = 'New Journey')
@@ -42,7 +42,7 @@ def new_journey():
 @app.route('/delete-journey', methods = ['GET', 'POST'])
 @login_required
 def delete_journey():
-    journey_id = request.args.get('jid') or -1
+    journey_id = request.args.get('journey_id') or -1
 
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
     if not journey:
@@ -63,7 +63,7 @@ def delete_journey():
 @app.route('/edit-journey', methods = ['GET', 'POST'])
 @login_required
 def edit_journey():
-    journey_id = request.args.get('jid') or -1
+    journey_id = request.args.get('journey_id') or -1
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
 
     if not journey:
@@ -87,7 +87,7 @@ def edit_journey():
 @app.route('/new-slide', methods = ['GET', 'POST'])
 @login_required
 def new_slide():
-    journey_id = request.args.get('jid') or -1
+    journey_id = request.args.get('journey_id') or -1
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
 
     if not journey:
@@ -127,7 +127,7 @@ def delete_slide():
         Slide.query.filter(Slide.id == slide_id).delete()
         db.session.commit()
         flash('Slide successfully deleted.', 'success')
-        return redirect(url_for('edit_journey', jid = journey.id))
+        return redirect(url_for('edit_journey', journey_id = journey.id))
 
     flash_errors(form)
     return render_template('delete-slide.html', form = form, slide = slide, title = 'Delete slide %s' % slide.title)
@@ -151,7 +151,7 @@ def edit_slide():
     if form.validate_on_submit():
         # @todo: see how SQLAlchemy deals with this
         flash('Slide successfully updated.', 'success')
-        return redirect(url_for('edit_journey', jid = journey.id))
+        return redirect(url_for('edit_journey', journey_id = journey.id))
 
     photos = Photo.query.filter_by(slide_id = slide_id)
 
@@ -214,6 +214,35 @@ def edit_photo():
 
     flash_errors(form)
     return render_template('edit-photo.html', form = form, title = 'Edit photo %s' % photo.title, photo = photo)
+
+@app.route('/delete-photo', methods = ['GET', 'POST'])
+@login_required
+def delete_photo():
+    photo_id = request.args.get('photo_id') or -1
+
+    photo = Photo.query.filter_by(id = photo_id).first()
+    if not photo:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    slide = Slide.query.filter_by(id = photo.slide_id).first()
+    if not slide:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = DeletePhotoForm(photo_id = photo.id)
+
+    if form.validate_on_submit():
+        Photo.query.filter(Photo.id == photo_id).delete()
+        db.session.commit()
+        flash('Photo successfully deleted.', 'success')
+        return redirect(url_for('edit_slide', slide_id = slide.id))
+
+    flash_errors(form)
+    return render_template('delete-photo.html', form = form, photo = photo, title = 'Delete photo %s' % photo.title)
 
 # USERS
 
