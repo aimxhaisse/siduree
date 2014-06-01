@@ -1,9 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import TextField
-from wtforms import PasswordField
-from wtforms.validators import Required
-from wtforms.validators import EqualTo
-from wtforms.validators import Email
+from wtforms import TextField, PasswordField, TextAreaField, HiddenField
+from wtforms.validators import Required, EqualTo, Email
 
 class LoginForm(Form):
     login = TextField('Login', [Required()])
@@ -14,3 +11,12 @@ class RegisterForm(Form):
     email = TextField('Email', [Required(), Email()])
     password = PasswordField('Password', [Required(), EqualTo('again', message='Passwords must match')])
     again = PasswordField('Repeat Password')
+
+class NewJourneyForm(Form):
+    title = TextField('Title', [Required()])
+    description = TextAreaField('Description')
+
+class NewSlideForm(Form):
+    title = TextField('Title', [Required()])
+    journey_id = HiddenField('Journey', [Required()])
+    description = TextAreaField('Description')

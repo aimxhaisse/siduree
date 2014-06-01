@@ -1,23 +1,51 @@
 from app import app, db, login_manager
 from flask.ext.login import login_url
 from flask import render_template, request, url_for, flash, redirect
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, NewJourneyForm, NewSlideForm
 from misc import flash_errors
-from models import User
+from models import User, Journey, Slide
 from flask.ext.login import login_required, login_user, logout_user, current_user
 
 # Main pages
-
 @app.route('/')
 def index():
     return render_template('index.html', title = 'Welcome!')
 
 @app.route('/about', methods = ['GET'])
 def about():
-    return render_template('about.html', form = RegisterForm(), title = 'About')
+    return render_template('about.html', title = 'About')
+
+# Journeys
+@app.route('/new-journey', methods = ['GET', 'POST'])
+@login_required
+def new_journey():
+    form = NewJourneyForm()
+    if form.validate_on_submit():
+        j = Journey()
+        j.create(form.data['title'], form.data['description'], current_user.id)
+        db.session.add(j)
+        db.session.commit()
+        flash('Journey %s successfully created.' % j.title, 'success')
+        return redirect(url_for('new_slide', jid = j.id))
+    flash_errors(form)
+    return render_template('new-journey.html', form = form, title = 'New Journey')
+
+# Slides
+@app.route('/new-slide', methods = ['GET', 'POST'])
+@login_required
+def new_slide():
+    form = NewSlideForm(journey_id = request.args.get('jid') or None)
+    if form.validate_on_submit():
+        s = Slide()
+        s.create(form.data['title'], form.data['description'], form.data['journey_id'])
+        db.session.add(s)
+        db.session.commit()
+        flash('Slide added to journey', 'success')
+        return redirect(url_for('index'))
+    flash_errors(form)
+    return render_template('new-slide.html', form = form, title = 'New Slide')
 
 # User management
-
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if current_user.is_authenticated():

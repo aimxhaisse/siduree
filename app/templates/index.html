@@ -4,6 +4,12 @@
 <div class="jumbotron">
   <h1>Siduree</h1>
   <p class="lead">Your photos, simply.</p>
-  <p><a class="btn btn-lg btn-success" href="{{ url_for('register') }}" role="button">Sign Up</a></p>
+  <p>
+    {% if current_user.is_authenticated() %}
+    <a class="btn btn-lg btn-success" href="{{ url_for('new_journey') }}" role="button">Create a Journey</a>
+    {% else %}
+    <a class="btn btn-lg btn-success" href="{{ url_for('register') }}" role="button">Sign Up</a>
+    {% endif %}
+  </p>
 </div>
 {% endblock %}

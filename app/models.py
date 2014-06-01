@@ -44,11 +44,39 @@ class User(db.Model):
     def __repr__(self):
         return '<User %s>' % self.login
 
-class Story(db.Model):
+class Journey(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
 
+    def create(self, title, description, user_id):
+        self.user_id = user_id
+        self.title = title
+        self.description = description
+
     def __repr__(self):
-        return '<Story %s>' % self.title
+        return '<Journey %s>' % self.title
+
+class Slide(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    journey_id = db.Column(db.Integer, db.ForeignKey('journey.id'))
+    title = db.Column(db.String(128))
+    description = db.Column(db.Text())
+
+    def create(self, title, description, journey_id):
+        self.journey_id = journey_id
+        self.title = title
+        self.description = description
+
+    def __repr__(self):
+        return '<SlideShow %s>' % self.title
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    slide_id = db.Column(db.Integer, db.ForeignKey('slide.id'))
+    title = db.Column(db.String(128))
+    description = db.Column(db.Text())
+
+    def __repr__(self):
+        return '<Photo %s>' % self.title

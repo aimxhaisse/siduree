@@ -10,7 +10,7 @@ args = parser.parse_args();
 
 def default_user():
     u = models.User()
-    u.create('mxs', 'mxs', 'mxs@sbrk.org')
+    u.create('mxs', 'mxs@sbrk.org', 'mxs')
     db.session.add(u)
     db.session.commit()
 
