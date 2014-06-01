@@ -19,6 +19,11 @@ class NewJourneyForm(Form):
 class DeleteJourneyForm(Form):
     journey_id = HiddenField('Journey', [Required()])
 
+class EditJourneyForm(Form):
+    journey_id = HiddenField('Journey', [Required()])
+    title = TextField('Title', [Required()])
+    description = TextAreaField('Description')
+
 class NewSlideForm(Form):
     title = TextField('Title', [Required()])
     journey_id = HiddenField('Journey', [Required()])

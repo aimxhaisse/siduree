@@ -1,7 +1,7 @@
 from app import app, db, login_manager
 from flask.ext.login import login_url
 from flask import render_template, request, url_for, flash, redirect
-from forms import LoginForm, RegisterForm, NewJourneyForm, NewSlideForm, DeleteJourneyForm
+from forms import LoginForm, RegisterForm, NewJourneyForm, NewSlideForm, DeleteJourneyForm, EditJourneyForm
 from misc import flash_errors
 from models import User, Journey, Slide
 from flask.ext.login import login_required, login_user, logout_user, current_user
@@ -22,53 +22,80 @@ def about():
 @login_required
 def new_journey():
     form = NewJourneyForm()
+
     if form.validate_on_submit():
-        j = Journey()
-        j.create(form.data['title'], form.data['description'], current_user.id)
-        db.session.add(j)
+        journey = Journey()
+        journey.create(form.data['title'], form.data['description'], current_user.id)
+        db.session.add(journey)
         db.session.commit()
-        flash('Journey %s successfully created.' % j.title, 'success')
-        return redirect(url_for('new_slide', jid = j.id))
+        flash('Journey %s successfully created.' % journey.title, 'success')
+        return redirect(url_for('new_slide', jid = journey.id))
+
     flash_errors(form)
     return render_template('new-journey.html', form = form, title = 'New Journey')
 
 @app.route('/delete-journey', methods = ['GET', 'POST'])
 @login_required
 def delete_journey():
-    jid = request.args.get('jid') or -1
-    journey = Journey.query.filter_by(id = jid, user_id = current_user.id).first()
+    journey_id = request.args.get('jid') or -1
+
+    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
-    form = DeleteJourneyForm(journey_id = jid)
+
+    form = DeleteJourneyForm(journey_id = journey_id)
+
     if form.validate_on_submit():
-        if not journey:
-            flash(BAD_KITTY, 'danger')
-            return redirect(url_for('index'))
-        Journey.query.filter(Journey.id == jid).delete()
+        Journey.query.filter(Journey.id == journey_id).delete()
         db.session.commit()
         flash('Journey successfully deleted.', 'success')
         return redirect(url_for('me'))
 
+    flash_errors(form)
     return render_template('delete-journey.html', form = form, journey = journey, title = 'Delete journey %s' % journey.title)
+
+@app.route('/edit-journey', methods = ['GET', 'POST'])
+@login_required
+def edit_journey():
+    jid = request.args.get('jid') or -1
+    journey = Journey.query.filter_by(id = jid, user_id = current_user.id).first()
+
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = EditJourneyForm(journey_id = jid, title = journey.title, description = journey.description)
+
+    if form.validate_on_submit():
+        # @todo: see how SQLAlchemy deals with this
+        flash('Journey successfully updated.', 'success')
+        return redirect(url_for('me'))
+
+    flash_errors(form)
+    return render_template('edit-journey.html', form = form, title = 'Edit journey %s' % journey.title, journey = journey)
 
 # Slides
 @app.route('/new-slide', methods = ['GET', 'POST'])
 @login_required
 def new_slide():
-    jid = request.args.get('jid') or -1
-    form = NewSlideForm(journey_id = jid)
+    journey_id = request.args.get('jid') or -1
+    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = NewSlideForm(journey_id = journey_id)
+
     if form.validate_on_submit():
-        j = Journey.query.filter_by(id = jid, user_id = current_user.id).first()
-        if not j:
-            flash(BAD_KITTY, 'danger')
-            return redirect(url_for('index'))
-        s = Slide()
-        s.create(form.data['title'], form.data['description'], form.data['journey_id'])
-        db.session.add(s)
+        slide = Slide()
+        slide.create(form.data['title'], form.data['description'], journey_id)
+        db.session.add(slide)
         db.session.commit()
         flash('Slide added to journey', 'success')
         return redirect(url_for('index'))
+
     flash_errors(form)
     return render_template('new-slide.html', form = form, title = 'New Slide')
 
@@ -77,14 +104,18 @@ def new_slide():
 def login():
     if current_user.is_authenticated():
         return redirect(request.referrer or '/')
+
     form = LoginForm()
+
     if form.validate_on_submit():
-        u = User()
-        if u.auth(form.data['login'], form.data['password']):
-            login_user(u)
+        user = User()
+        if user.auth(form.data['login'], form.data['password']):
+            login_user(user)
             flash('Logged in successfully.', 'success')
             return redirect(request.args.get('next') or url_for('index'))
+
         flash('Login and password don\'t match', 'danger')
+
     flash_errors(form)
     return render_template('login.html', form = form, title = 'Sign In')
 
@@ -99,15 +130,22 @@ def logout():
 def register():
     if current_user.is_authenticated():
         return redirect(request.referrer or '/')
+
     form = RegisterForm()
+
     if form.validate_on_submit():
-        u = User()
-        u.create(form.data['login'], form.data['email'], form.data['password'])
-        db.session.add(u)
-        db.session.commit()
-        login_user(u)
-        flash('Account successfully created.', 'success')
-        return redirect(url_for('index'))
+        try:
+            user = User()
+            user.create(form.data['login'], form.data['email'], form.data['password'])
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            flash('Account successfully created.', 'success')
+            return redirect(url_for('index'))
+        except:
+            flash('This account is already registered.', 'danger')
+            return redirect(url_for('register'))
+
     flash_errors(form)
     return render_template('register.html', form = form, title = 'Register')
 

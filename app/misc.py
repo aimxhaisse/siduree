@@ -1,4 +1,4 @@
-from models import User
+from models import User, Journey
 from app import login_manager
 from flask import flash
 
