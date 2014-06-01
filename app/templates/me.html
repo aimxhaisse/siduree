@@ -4,6 +4,30 @@
 <div class="container">
   <h1>My Account</h1>
   <h2>Journeys</h2>
+  {% if journeys %}
+  <table class="table-bordered table">
+    <thead>
+      <tr>
+	<th>Title</th>
+	<th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for journey in journeys %}
+      <tr>
+	<td>{{journey.title}}</td>
+	<td>
+	  <a href="#"><span class="glyphicon glyphicon-off"></span></a>
+	  <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
+	  <a href="#"><span class="glyphicon glyphicon-home"></span></a>
+	</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>You don't have any journey (yet).</p>
+  {% endif %}
   <a class="btn btn-lg btn-success" href="{{ url_for('new_journey') }}" role="button">New Journey</a>
 </div>
 {% endblock %}

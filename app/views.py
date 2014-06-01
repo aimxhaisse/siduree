@@ -101,7 +101,8 @@ def register():
 @app.route('/me', methods = ['GET', 'POST'])
 @login_required
 def me():
-    return render_template('me.html', title = 'My Account')
+    journeys = Journey.query.filter_by(user_id = current_user.id)
+    return render_template('me.html', journeys = journeys, title = 'My Account')
 
 @login_manager.unauthorized_handler
 def unauthorized():
