@@ -78,5 +78,10 @@ class Photo(db.Model):
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
 
+    def create(self, title, description, slide_id):
+        self.slide_id = slide_id
+        self.title = title
+        self.description = description
+
     def __repr__(self):
         return '<Photo %s>' % self.title

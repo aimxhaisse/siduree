@@ -42,6 +42,12 @@ def populate():
             db.session.add(s)
             db.session.commit()
 
+            for l in range(3):
+                p = models.Photo()
+                p.create(random_sentence(), random_sentence(), s.id)
+                db.session.add(p)
+                db.session.commit()
+
 def main(what):
     if what == "dev-init":
         subprocess.call("rm -f siduree.db", shell = True)
