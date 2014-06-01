@@ -2,8 +2,8 @@ from app import app, db, login_manager
 from flask.ext.login import login_url
 from flask import render_template, request, url_for, flash, redirect
 from forms import LoginForm, RegisterForm
-from forms import NewJourneyForm, NewSlideForm, DeleteJourneyForm
-from forms import EditJourneyForm, DeleteSlideForm
+from forms import NewJourneyForm, EditJourneyForm, DeleteJourneyForm
+from forms import NewSlideForm, EditSlideForm, DeleteSlideForm
 from misc import flash_errors
 from models import User, Journey, Slide
 from flask.ext.login import login_required, login_user, logout_user, current_user
@@ -130,6 +130,30 @@ def delete_slide():
 
     flash_errors(form)
     return render_template('delete-slide.html', form = form, slide = slide, title = 'Delete slide %s' % slide.title)
+
+@app.route('/edit-slide', methods = ['GET', 'POST'])
+@login_required
+def edit_slide():
+    slide_id = request.args.get('slide_id') or -1
+
+    slide = Slide.query.filter_by(id = slide_id).first()
+    if not slide:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    if not journey:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+
+    form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description)
+
+    if form.validate_on_submit():
+        # @todo: see how SQLAlchemy deals with this
+        flash('Slide successfully updated.', 'success')
+        return redirect(url_for('edit_journey', jid = journey.id))
+
+    flash_errors(form)
+    return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide)
 
 # USERS
 

@@ -37,3 +37,8 @@ class NewSlideForm(Form):
 
 class DeleteSlideForm(Form):
     slide_id = HiddenField('Slide', [Required()])
+
+class EditSlideForm(Form):
+    slide_id = HiddenField('Slide', [Required()])
+    title = TextField('Title', [Required()])
+    description = TextAreaField('Description')
