@@ -4,7 +4,7 @@
 <div class="container">
   <h1>New Photo <small>Step 3/3</small></h1>
 
-  <form role="form" action="" method="post" name="login" class="form-horizontal">
+  <form role="form" action="" method="post" name="login" class="form-horizontal" enctype="multipart/form-data">
 
     {{ form.hidden_tag() }}
 
@@ -18,6 +18,12 @@
       <label for="form-description" class="control-label col-sm-3">Description</label>
       <div class="col-sm-9">
 	{{ form.description(class='form-control input-lg', id='form-description', placeholder='Enter Description') }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="form-description" class="control-label col-sm-3">Your Photo</label>
+      <div class="col-sm-9">
+	{{ form.photo(class='form-control input-lg', id='form-photo') }}
       </div>
     </div>
     <div class="form-group">

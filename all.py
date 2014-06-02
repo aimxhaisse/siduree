@@ -44,7 +44,7 @@ def populate():
 
             for l in range(3):
                 p = models.Photo()
-                p.create(random_sentence(), random_sentence(), s.id)
+                p.create(random_sentence(), random_sentence(), s.id, 'path')
                 db.session.add(p)
                 db.session.commit()
 

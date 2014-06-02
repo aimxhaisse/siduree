@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, TextAreaField, HiddenField
+from wtforms import TextField, PasswordField, TextAreaField, HiddenField, FileField
 from wtforms.validators import Required, EqualTo, Email
 
 # User
@@ -47,6 +47,7 @@ class DeleteSlideForm(Form):
 
 class NewPhotoForm(Form):
     title = TextField('Title', [Required()])
+    photo = FileField('Your Photo', [Required()])
     slide_id = HiddenField('Slide', [Required()])
     description = TextAreaField('Description')
 

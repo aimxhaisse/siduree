@@ -73,7 +73,9 @@ def edit_journey():
     form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description)
 
     if form.validate_on_submit():
-        # @todo: see how SQLAlchemy deals with this
+        journey.title = form.data['title']
+        journey.description = form.data['description']
+        db.session.commit()
         flash('Journey successfully updated.', 'success')
         return redirect(url_for('me'))
 
@@ -149,7 +151,9 @@ def edit_slide():
     form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description)
 
     if form.validate_on_submit():
-        # @todo: see how SQLAlchemy deals with this
+        slide.title = form.data['title']
+        slide.description = form.data['description']
+        db.session.commit()
         flash('Slide successfully updated.', 'success')
         return redirect(url_for('edit_journey', journey_id = journey.id))
 
@@ -178,7 +182,7 @@ def new_photo():
 
     if form.validate_on_submit():
         photo = Photo()
-        photo.create(form.data['title'], form.data['description'], slide_id)
+        photo.create(form.data['title'], form.data['description'], slide_id, secure_filename(form.photo.data.filename))
         db.session.add(photo)
         db.session.commit()
         flash('Photo added to slide', 'success')
@@ -208,7 +212,9 @@ def edit_photo():
     form = EditPhotoForm(photo_id = photo_id, title = photo.title, description = photo.description)
 
     if form.validate_on_submit():
-        # @todo: see how SQLAlchemy deals with this
+        photo.title = form.data['title']
+        photo.description = form.data['description']
+        db.session.commit()
         flash('Photo successfully updated.', 'success')
         return redirect(url_for('edit_slide', slide_id = slide.id))
 
