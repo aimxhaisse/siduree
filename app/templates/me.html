@@ -6,20 +6,30 @@
   <h2>Journeys</h2>
   {% if journeys %}
   <table class="table-bordered table">
-    <thead>
-      <tr>
-	<th>Title</th>
-	<th>Actions</th>
-      </tr>
-    </thead>
     <tbody>
       {% for journey in journeys %}
       <tr>
 	<td>{{journey.title}}</td>
 	<td>
-	  <a href="{{ url_for('delete_journey', journey_id = journey.id) }}"><span class="glyphicon glyphicon-off"></span></a>
-	  <a href="{{ url_for('edit_journey', journey_id = journey.id) }}"><span class="glyphicon glyphicon-edit"></span></a>
-	  <a href="#"><span class="glyphicon glyphicon-home"></span></a>
+	  <a href="{{ url_for('delete_journey', journey_id = journey.id) }}">
+	    <button class="btn btn-default">
+	      <span class="glyphicon glyphicon-remove"></span>
+	    </button>
+	  </a>
+	</td>
+	<td>
+	  <a href="{{ url_for('edit_journey', journey_id = journey.id) }}">
+	    <button class="btn btn-default">
+	      <span class="glyphicon glyphicon-pencil"></span>
+	    </button>
+	  </a>
+	</td>
+	<td>
+	  <a href="#">
+	    <button class="btn btn-default">
+	      <span class="glyphicon glyphicon-eye-open"></span>
+	    </button>
+	  </a>
 	</td>
       </tr>
       {% endfor %}
