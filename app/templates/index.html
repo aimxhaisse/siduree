@@ -12,4 +12,32 @@
     {% endif %}
   </p>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <h3>Ici un truc cool</h3>
+      <p>
+	Ici aussi mais avec plus de mots.
+      </p>
+    </div>
+    <div class="col-md-5">
+       <span class="thumbnail">
+	 <img src="{{ url_for('static', filename = 'img/index-1.jpg') }}" />
+       </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+       <span class="thumbnail">
+	 <img src="{{ url_for('static', filename = 'img/index-2.jpg') }}" />
+       </span>
+    </div>
+    <div class="col-md-7">
+      <h3>Là aussi un truc cool</h3>
+      <p>
+	Et bien.
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}
