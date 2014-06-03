@@ -39,11 +39,9 @@ def new_journey():
     flash_errors(form)
     return render_template('new-journey.html', form = form, title = 'New Journey')
 
-@app.route('/delete-journey', methods = ['GET', 'POST'])
+@app.route('/delete-journey/<int:journey_id>', methods = ['GET', 'POST'])
 @login_required
-def delete_journey():
-    journey_id = request.args.get('journey_id') or -1
-
+def delete_journey(journey_id):
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
@@ -60,10 +58,9 @@ def delete_journey():
     flash_errors(form)
     return render_template('delete-journey.html', form = form, journey = journey, title = 'Delete journey %s' % journey.title)
 
-@app.route('/edit-journey', methods = ['GET', 'POST'])
+@app.route('/edit-journey/<int:journey_id>', methods = ['GET', 'POST'])
 @login_required
-def edit_journey():
-    journey_id = request.args.get('journey_id') or -1
+def edit_journey(journey_id):
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
 
     if not journey:
@@ -86,10 +83,9 @@ def edit_journey():
 
 # SLIDES
 
-@app.route('/new-slide', methods = ['GET', 'POST'])
+@app.route('/new-slide/<int:journey_id>', methods = ['GET', 'POST'])
 @login_required
-def new_slide():
-    journey_id = request.args.get('journey_id') or -1
+def new_slide(journey_id):
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
 
     if not journey:
@@ -109,11 +105,9 @@ def new_slide():
     flash_errors(form)
     return render_template('new-slide.html', form = form, title = 'New Slide')
 
-@app.route('/delete-slide', methods = ['GET', 'POST'])
+@app.route('/delete-slide/<int:slide_id>', methods = ['GET', 'POST'])
 @login_required
-def delete_slide():
-    slide_id = request.args.get('slide_id') or -1
-
+def delete_slide(slide_id):
     slide = Slide.query.filter_by(id = slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
@@ -134,11 +128,9 @@ def delete_slide():
     flash_errors(form)
     return render_template('delete-slide.html', form = form, slide = slide, title = 'Delete slide %s' % slide.title)
 
-@app.route('/edit-slide', methods = ['GET', 'POST'])
+@app.route('/edit-slide/<int:slide_id>', methods = ['GET', 'POST'])
 @login_required
-def edit_slide():
-    slide_id = request.args.get('slide_id') or -1
-
+def edit_slide(slide_id):
     slide = Slide.query.filter_by(id = slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
@@ -164,11 +156,9 @@ def edit_slide():
 
 # PHOTOS
 
-@app.route('/new-photo', methods = ['GET', 'POST'])
+@app.route('/new-photo/<int:slide_id>', methods = ['GET', 'POST'])
 @login_required
-def new_photo():
-    slide_id = request.args.get('slide_id') or -1
-
+def new_photo(slide_id):
     slide = Slide.query.filter_by(id = slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
@@ -191,11 +181,9 @@ def new_photo():
     flash_errors(form)
     return render_template('new-photo.html', form = form, title = 'New Photo')
 
-@app.route('/edit-photo', methods = ['GET', 'POST'])
+@app.route('/edit-photo/<int:photo_id>', methods = ['GET', 'POST'])
 @login_required
-def edit_photo():
-    photo_id = request.args.get('photo_id') or -1
-
+def edit_photo(photo_id):
     photo = Photo.query.filter_by(id = photo_id).first()
     if not photo:
         flash(BAD_KITTY, 'danger')
@@ -221,11 +209,9 @@ def edit_photo():
     flash_errors(form)
     return render_template('edit-photo.html', form = form, title = 'Edit photo %s' % photo.title, photo = photo)
 
-@app.route('/delete-photo', methods = ['GET', 'POST'])
+@app.route('/delete-photo/<int:photo_id>', methods = ['GET', 'POST'])
 @login_required
-def delete_photo():
-    photo_id = request.args.get('photo_id') or -1
-
+def delete_photo(photo_id):
     photo = Photo.query.filter_by(id = photo_id).first()
     if not photo:
         flash(BAD_KITTY, 'danger')

@@ -9,25 +9,22 @@
     <tbody>
       {% for journey in journeys %}
       <tr>
-	<td>{{journey.title}}</td>
-	<td>
+	<td class="col-md-10">
+	  <button class="btn btn-default">
+	    {{journey.title}}
+	  </button>
+	</td>
+	<td class="col-md-1">
 	  <a href="{{ url_for('delete_journey', journey_id = journey.id) }}">
 	    <button class="btn btn-default">
 	      <span class="glyphicon glyphicon-remove"></span>
 	    </button>
 	  </a>
 	</td>
-	<td>
+	<td class="col-md-1">
 	  <a href="{{ url_for('edit_journey', journey_id = journey.id) }}">
 	    <button class="btn btn-default">
 	      <span class="glyphicon glyphicon-pencil"></span>
-	    </button>
-	  </a>
-	</td>
-	<td>
-	  <a href="#">
-	    <button class="btn btn-default">
-	      <span class="glyphicon glyphicon-eye-open"></span>
 	    </button>
 	  </a>
 	</td>

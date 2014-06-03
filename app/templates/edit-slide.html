@@ -33,25 +33,22 @@
     <tbody>
       {% for photo in photos %}
       <tr>
-	<td>{{ photo.title }}</td>
-	<td>
+	<td class="col-md-9 vert-align">
+	  <button class="btn btn-default">
+	    {{ photo.title }}
+	  </button>
+	</td>
+	<td class="col-md-1">
 	  <a href="{{ url_for('delete_photo', photo_id = photo.id) }}">
 	    <button class="btn btn-default">
 	      <span class="glyphicon glyphicon-remove"></span>
 	    </button>
 	  </a>
 	</td>
-	<td>
+	<td class="col-md-1">
 	  <a href="{{ url_for('edit_photo', photo_id = photo.id) }}">
 	    <button class="btn btn-default">
 	      <span class="glyphicon glyphicon-pencil"></span>
-	    </button>
-	  </a>
-	</td>
-	<td>
-	  <a href="#">
-	    <button class="btn btn-default">
-	      <span class="glyphicon glyphicon-eye-open"></span>
 	    </button>
 	  </a>
 	</td>
