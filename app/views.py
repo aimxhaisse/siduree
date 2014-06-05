@@ -175,7 +175,7 @@ def new_photo(slide_id):
         photo = Photo()
         tmp = tempfile.NamedTemporaryFile(suffix = '.jpg')
         form.photo.data.save(tmp)
-        tmp.flush()x
+        tmp.flush()
         photo.create(form.data['title'], form.data['description'], slide_id, tmp.name)
         db.session.add(photo)
         db.session.commit()
