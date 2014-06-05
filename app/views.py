@@ -8,6 +8,7 @@ from forms import NewPhotoForm, EditPhotoForm, DeletePhotoForm
 from misc import flash_errors
 from models import User, Journey, Slide, Photo
 from flask.ext.login import login_required, login_user, logout_user, current_user
+import tempfile
 
 BAD_KITTY = 'Hey! Don\'t try that again!'
 
@@ -172,7 +173,10 @@ def new_photo(slide_id):
 
     if form.validate_on_submit():
         photo = Photo()
-        photo.create(form.data['title'], form.data['description'], slide_id, secure_filename(form.photo.data.filename))
+        tmp = tempfile.NamedTemporaryFile(suffix = '.jpg')
+        form.photo.data.save(tmp)
+        tmp.flush()x
+        photo.create(form.data['title'], form.data['description'], slide_id, tmp.name)
         db.session.add(photo)
         db.session.commit()
         flash('Photo added to slide', 'success')

@@ -1,4 +1,4 @@
-from app import db
+from app import db, photo
 from hashlib import sha512
 from uuid import uuid4
 
@@ -77,16 +77,20 @@ class Photo(db.Model):
     slide_id = db.Column(db.Integer, db.ForeignKey('slide.id'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
-    path_small = db.Column(db.String(128))
-    path_medium = db.Column(db.String(128))
-    path_large = db.Column(db.String(128))
-    path_original = db.Column(db.String(128))
+    small = db.Column(db.String(128))
+    medium = db.Column(db.String(128))
+    large = db.Column(db.String(128))
+    original = db.Column(db.String(128))
 
     def create(self, title, description, slide_id, path):
         self.slide_id = slide_id
         self.title = title
         self.description = description
-        self.path = path
+        name = uuid4().hex
+        self.original = photo.original(path, name)
+        self.large = photo.large(path, name)
+        self.medium = photo.medium(self.large, name)
+        self.small = photo.small(self.medium, name)
 
     def __repr__(self):
         return '<Photo %s>' % self.title

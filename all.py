@@ -18,7 +18,7 @@ def get_words():
 
 words = get_words()
 
-def random_sentence(size = 10):
+def random_sentence(size = 5):
     sentence = []
     for i in range(size):
         sentence.append(words[int(len(words) * random())])
@@ -44,13 +44,14 @@ def populate():
 
             for l in range(3):
                 p = models.Photo()
-                p.create(random_sentence(), random_sentence(), s.id, 'path')
+                p.create(random_sentence(), random_sentence(), s.id, 'assets/lost.jpg')
                 db.session.add(p)
                 db.session.commit()
 
 def main(what):
     if what == "dev-init":
-        subprocess.call("rm -f siduree.db", shell = True)
+        subprocess.call("rm -rf siduree.db app/static/uploads", shell = True)
+        subprocess.call("mkdir -p app/static/uploads", shell = True)
         db.create_all()
         populate()
         

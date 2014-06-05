@@ -3,3 +3,5 @@ __pycache__
 siduree.db
 flask
 db_repository
+assets
+app/static/uploads/
