@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set active_page = 'home' %}
+{% block content %}
+<div class="container">
+  <h1>{{ journey.title }} <small>by {{ journey.user.login }}</small></h1>
+  <div class="row">
+  {% for slide in journey.slides %}
+    <div class="col-md-7">
+      <h3>{{ slide.title }}</h3>
+      <p>
+	{{ slide.description }}
+      </p>
+    </div>
+    <div class="col-md-5">
+       <span class="thumbnail">
+	 <img src="{{ url_for('static', filename = slide.get_cover()) }}" />
+       </span>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

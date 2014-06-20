@@ -24,6 +24,14 @@ def about():
 
 # --- JOURNEYS
 
+@app.route('/view-journey/<int:journey_id>')
+def view_journey(journey_id):
+    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+    if not journey:
+        flash('This journey does not exist anymore.', 'danger')
+        return redirect(url_for('index'))
+    return render_template('view-journey.html', journey = journey)
+
 @app.route('/new-journey', methods = ['GET', 'POST'])
 @login_required
 def new_journey():

@@ -10,9 +10,11 @@
       {% for journey in journeys %}
       <tr>
 	<td class="col-md-10">
-	  <button class="btn btn-default">
-	    {{journey.title}}
-	  </button>
+	  <a href="{{ url_for('view_journey', journey_id = journey.id) }}">
+	    <button class="btn btn-default">
+	      {{journey.title}}
+	    </button>
+	  </a>
 	</td>
 	<td class="col-md-1">
 	  <a href="{{ url_for('delete_journey', journey_id = journey.id) }}">

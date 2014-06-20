@@ -1,6 +1,10 @@
 from app import db, photo
 from hashlib import sha512
 from uuid import uuid4
+import os
+
+UPLOAD_RESOURCE = 'uploads/'
+IMAGE_NOT_FOUND = 'not-found.jpg'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -47,6 +51,7 @@ class User(db.Model):
 class Journey(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref = db.backref('user', lazy = 'dynamic'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
 
@@ -61,6 +66,7 @@ class Journey(db.Model):
 class Slide(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     journey_id = db.Column(db.Integer, db.ForeignKey('journey.id'))
+    journey = db.relationship('Journey', backref = db.backref('slides', lazy = 'dynamic'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
 
@@ -69,12 +75,20 @@ class Slide(db.Model):
         self.title = title
         self.description = description
 
+    def get_cover(self):
+        try:
+            cover = Photo.query.filter_by(slide_id = self.id).first()
+            return '%s/%s' % (UPLOAD_RESOURCE, cover.medium)
+        except:
+            return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
+
     def __repr__(self):
         return '<SlideShow %s>' % self.title
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     slide_id = db.Column(db.Integer, db.ForeignKey('slide.id'))
+    slide = db.relationship('Slide', backref = db.backref('photos', lazy = 'dynamic'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
     small = db.Column(db.String(128))
@@ -87,10 +101,16 @@ class Photo(db.Model):
         self.title = title
         self.description = description
         name = uuid4().hex
-        self.original = photo.original(path, name)
-        self.large = photo.large(path, name)
-        self.medium = photo.medium(self.large, name)
-        self.small = photo.small(self.medium, name)
+
+        orig_fp = photo.original(path, name)
+        large_fp = photo.large(orig_fp, name)
+        medium_fp = photo.medium(large_fp, name)
+        small_fp = photo.small(medium_fp, name)
+
+        self.original = os.path.basename(orig_fp)
+        self.large = os.path.basename(large_fp)
+        self.medium = os.path.basename(medium_fp)
+        self.small = os.path.basename(small_fp)
 
     def __repr__(self):
         return '<Photo %s>' % self.title
