@@ -307,6 +307,14 @@ def register():
     flash_errors(form)
     return render_template('register.html', form = form, title = 'Register')
 
+@app.route('/user/<int:user_id>')
+def view_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    return render_template('view-user.html', user=user)
+
 @app.route('/me', methods = ['GET', 'POST'])
 @login_required
 def me():

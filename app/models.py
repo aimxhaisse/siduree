@@ -14,6 +14,7 @@ class User(db.Model):
     salt = db.Column(db.String(64))
     is_authenticated = False
     is_active = True
+    journeys = db.relationship('Journey', backref='user', lazy='dynamic')
 
     def create(self, login, email, password):
         self.login = login
@@ -51,7 +52,6 @@ class User(db.Model):
 class Journey(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref = db.backref('user', lazy = 'dynamic'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
 
@@ -62,6 +62,13 @@ class Journey(db.Model):
 
     def __repr__(self):
         return '<Journey %s>' % self.title
+
+    def get_cover(self):
+        try:
+            cover = Photo.query.filter_by(slide_id = self.slides.first().id).first()
+            return '%s/%s' % (UPLOAD_RESOURCE, cover.medium)
+        except:
+            return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
 
 class Slide(db.Model):
     id = db.Column(db.Integer, primary_key = True)

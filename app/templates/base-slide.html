@@ -33,7 +33,7 @@
 	    </a>
 	  </li>
         </ul>
-        <h3 class="text-muted">{{ slide.title }} <small>by <a href="#">{{ slide.journey.user.login }}</a></small></h3>
+        <h3 class="text-muted">{{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</small></h3>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=true) %}

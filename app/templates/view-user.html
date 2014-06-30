@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active_page = 'home' %}
+{% block content %}
+<div class="container">
+  <h1>{{ user.login }}<small>'s Journeys</small></h1>
+
+  <div class="row">
+    {% for journey in user.journeys %}
+    <div class="col-md-7">
+      <h3><a href="{{ url_for('view_journey', journey_id = journey.id) }}">{{ journey.title }}</a></h3>
+      <p>
+	{{ journey.description }}
+      </p>
+      <a class="btn btn-success" href="{{ url_for('view_journey', journey_id = journey.id) }}" role="button">View Journey</a>
+    </div>
+    <div class="col-md-5">
+      <span class="thumbnail">
+	<a href="{{ url_for('view_journey', journey_id = journey.id) }}">
+	  <img src="{{ url_for('static', filename = journey.get_cover()) }}" />
+	</a>
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
