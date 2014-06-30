@@ -163,6 +163,14 @@ def edit_slide(slide_id):
     flash_errors(form)
     return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide, photos = photos)
 
+@app.route('/view-slide/<int:slide_id>')
+def view_slide(slide_id):
+    slide = Slide.query.filter_by(id = slide_id).first()
+    if not slide:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))    
+    return render_template('view-slide.html', slide = slide)
+
 # PHOTOS
 
 @app.route('/new-photo/<int:slide_id>', methods = ['GET', 'POST'])

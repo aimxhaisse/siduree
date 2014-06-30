@@ -1,0 +1,34 @@
+{% extends "base-slide.html" %}
+{% set active_page = 'user' %}
+{% block content %}
+<div class="container main">
+
+  <div id="control">
+    <a href="#" id="go-up">
+      <span class="glyphicon glyphicon-chevron-up" />
+    </a>
+    <br />
+    <a href="#" id="go-down">
+      <span class="glyphicon glyphicon-chevron-down" />
+    </a>
+  </div>
+
+  {% for photo in slide.photos %}
+
+  <section id="slide-{{ photo.id }}" class="slide" data-photo="{{ url_for('static', filename = photo.get_large()) }}">
+    <div class="photo-background">
+      <div class="photo-container">
+	<div class="photo-content">
+          <h2>{{ photo.title }}</h2>
+	  <p>
+	    {{ photo.description }}
+	  </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endfor %}
+
+</div>
+{% endblock %}

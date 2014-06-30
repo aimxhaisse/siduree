@@ -112,5 +112,8 @@ class Photo(db.Model):
         self.medium = os.path.basename(medium_fp)
         self.small = os.path.basename(small_fp)
 
+    def get_large(self):
+        return '%s/%s' % (UPLOAD_RESOURCE, self.large)
+
     def __repr__(self):
         return '<Photo %s>' % self.title

@@ -4,19 +4,22 @@
 <div class="container">
   <h1>{{ journey.title }} <small>by {{ journey.user.login }}</small></h1>
   <div class="row">
-  {% for slide in journey.slides %}
+    {% for slide in journey.slides %}
     <div class="col-md-7">
       <h3>{{ slide.title }}</h3>
       <p>
 	{{ slide.description }}
       </p>
+      <a class="btn btn-success" href="{{ url_for('view_slide', slide_id = slide.id) }}" role="button">View Slide</a>
     </div>
     <div class="col-md-5">
-       <span class="thumbnail">
-	 <img src="{{ url_for('static', filename = slide.get_cover()) }}" />
-       </span>
+      <span class="thumbnail">
+	<a href="{{ url_for('view_slide', slide_id = slide.id) }}">
+	  <img src="{{ url_for('static', filename = slide.get_cover()) }}" />
+	</a>
+      </span>
     </div>
-  {% endfor %}
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
