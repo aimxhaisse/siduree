@@ -2,7 +2,7 @@
 {% set active_page = 'home' %}
 {% block content %}
 <div class="container">
-  <h1>{{ journey.title }} <small>by {{ journey.user.login }}</small></h1>
+  <h1>{{ journey.title }} <small>by <a href="{{ url_for('view_user', user_id=journey.user.id) }}">{{ journey.user.login }}</a></small></h1>
   {% for slide in journey.slides %}
 
   <div class="row">
