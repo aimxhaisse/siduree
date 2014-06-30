@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
   <h1>My Account</h1>
+  <a class="btn btn-lg btn-success" href="{{ url_for('view_user', user_id=current_user.id) }}" role="button">View Profile</a>
   <h2>Journeys</h2>
   {% if journeys %}
   <table class="table-bordered table">
