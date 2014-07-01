@@ -57,3 +57,11 @@ body, html {
     padding: 10px;
     z-index: 10;
 }
+
+.navbar-header h1 {
+    margin-top: 10px;
+}
+
+.header-right-items {
+    margin-top: 10px;
+}

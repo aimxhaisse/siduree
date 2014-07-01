@@ -23,30 +23,31 @@
 
   <body>
 
-    <div class="container">
-
-      <div class="header slide-header">
-        <ul class="nav nav-pills pull-right"> 
-          <li class="{% if active_page == 'home' %}active{% endif %}">
-	    <a href="{{ url_for('index') }}">
-	      <span class="glyphicon glyphicon-home"></span>
-	    </a>
-	  </li>
-        </ul>
-        <h3 class="text-muted">{{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</small></h3>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1 class="text-muted">
+	  {{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</a></small>
+	</h1>
       </div>
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-      <div class="container">
-	{% for category, message in messages %}
-	<div class="alert alert-{{ category }}">{{ message }}</div>
-	{% endfor %}
-      </div>
-      {% endif %}
-      {% endwith %}
-
+      <ul class="nav nav-pills pull-right header-right-items"> 
+        <li>
+	  <a href="{{ url_for('index') }}">
+	    <span class="glyphicon glyphicon-home"></span>
+	  </a>
+	</li>
+      </ul>
     </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container">
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
 
     {% block content %}{% endblock %}
 

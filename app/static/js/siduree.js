@@ -55,7 +55,7 @@ $(document).ready(function() {
 	    $('#slide-' + where).each(function () {
 		is_sliding = true;
 		$("html, body").animate({
-		    scrollTop: ($(this).offset().top - 50 /* navbar's height */) + "px"
+		    scrollTop: ($(this).offset().top) + "px"
 		}, 1500, function () {
 		    is_sliding = false;
 		});
