@@ -35,11 +35,11 @@ $(document).ready(function() {
     
     slides.waypoint(function (direction) {
 	if (direction == "down") {
-	    current_slide = $(this).index();
+	    current_slide = parseInt($(this).attr('id').split('-')[1]);
 	}
     }, { offset: '50%' }).waypoint(function (direction) {
 	if (direction == "up") {
-	    current_slide = $(this).index();
+	    current_slide = parseInt($(this).attr('id').split('-')[1]);
 	}
     }, { offset: '-50%'});
 
