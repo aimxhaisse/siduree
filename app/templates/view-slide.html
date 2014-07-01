@@ -20,9 +20,11 @@
       <div class="photo-container">
 	<div class="photo-content">
           <h2>{{ photo.title }}</h2>
+	  {% if photo.description %}
 	  <p>
 	    {{ photo.description }}
 	  </p>
+	  {% endif %}
         </div>
       </div>
     </div>
