@@ -86,7 +86,7 @@ def edit_journey(journey_id):
         journey.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Journey successfully updated.', 'success')
-        return redirect(url_for('me'))
+        return redirect(url_for('edit_journey', journey_id = journey_id))
 
     slides = Slide.query.filter_by(journey_id = journey_id)
 
@@ -161,7 +161,7 @@ def edit_slide(slide_id):
         slide.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Slide successfully updated.', 'success')
-        return redirect(url_for('edit_journey', journey_id = journey.id))
+        return redirect(url_for('edit_slide', slide_id = slide_id))
 
     photos = Photo.query.filter_by(slide_id = slide_id)
 
@@ -245,7 +245,7 @@ def edit_photo(photo_id):
         photo.description = form.data['description']
         db.session.commit()
         flash('Photo successfully updated.', 'success')
-        return redirect(url_for('edit_slide', slide_id = slide.id))
+        return redirect(url_for('edit_photo', photo_id = photo_id))
 
     flash_errors(form)
     return render_template('edit-photo.html', form = form, title = 'Edit photo %s' % photo.title, photo = photo)
