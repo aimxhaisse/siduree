@@ -9,6 +9,7 @@ from misc import flash_errors
 from models import User, Journey, Slide, Photo
 from flask.ext.login import login_required, login_user, logout_user, current_user
 import tempfile
+from wtforms import SelectField
 
 BAD_KITTY = 'Hey! Don\'t try that again!'
 
@@ -77,10 +78,12 @@ def edit_journey(journey_id):
         return redirect(url_for('index'))
 
     form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description)
+    form.cover_id.choices = [(p.id, p.title) for p in Slide.query.filter_by(journey_id = journey_id).all()]
 
     if form.validate_on_submit():
         journey.title = form.data['title']
         journey.description = form.data['description']
+        journey.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Journey successfully updated.', 'success')
         return redirect(url_for('me'))
@@ -150,10 +153,12 @@ def edit_slide(slide_id):
         return redirect(url_for('index'))
 
     form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description)
+    form.cover_id.choices = [(p.id, p.title) for p in Photo.query.filter_by(slide_id = slide_id).all()]
 
     if form.validate_on_submit():
         slide.title = form.data['title']
         slide.description = form.data['description']
+        slide.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Slide successfully updated.', 'success')
         return redirect(url_for('edit_journey', journey_id = journey.id))

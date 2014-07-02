@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, TextAreaField, HiddenField, FileField
+from wtforms import TextField, PasswordField, TextAreaField, HiddenField, FileField, SelectField
 from wtforms.validators import Required, EqualTo, Email
 
 # User
@@ -19,11 +19,13 @@ class RegisterForm(Form):
 class NewJourneyForm(Form):
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+    cover_id = SelectField('Cover', coerce=int)
 
 class EditJourneyForm(Form):
     journey_id = HiddenField('Journey', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+    cover_id = SelectField('Cover', coerce=int)
 
 class DeleteJourneyForm(Form):
     journey_id = HiddenField('Journey', [Required()])
@@ -39,6 +41,7 @@ class EditSlideForm(Form):
     slide_id = HiddenField('Slide', [Required()])
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
+    cover_id = SelectField('Cover', coerce=int)
 
 class DeleteSlideForm(Form):
     slide_id = HiddenField('Slide', [Required()])

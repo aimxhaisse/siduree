@@ -54,6 +54,7 @@ class Journey(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
+    cover_id = db.Column(db.Integer, db.ForeignKey('slide.id', use_alter = True, name = 'journey_cover'), nullable = True)
 
     def create(self, title, description, user_id):
         self.user_id = user_id
@@ -65,17 +66,18 @@ class Journey(db.Model):
 
     def get_cover(self):
         try:
-            cover = Photo.query.filter_by(slide_id = self.slides.first().id).first()
-            return '%s/%s' % (UPLOAD_RESOURCE, cover.medium)
+            s = Slide.query.filter_by(id = self.cover_id).first()
+            return s.get_cover()
         except:
             return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
 
 class Slide(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     journey_id = db.Column(db.Integer, db.ForeignKey('journey.id'))
-    journey = db.relationship('Journey', backref = db.backref('slides', lazy = 'dynamic'))
+    journey = db.relationship('Journey', backref = db.backref('slides', lazy = 'dynamic'), foreign_keys = 'Slide.journey_id')
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
+    cover_id = db.Column(db.Integer, db.ForeignKey('photo.id', use_alter = True, name = 'slide_cover'), nullable = True)
 
     def create(self, title, description, journey_id):
         self.journey_id = journey_id
@@ -84,7 +86,9 @@ class Slide(db.Model):
 
     def get_cover(self):
         try:
-            cover = Photo.query.filter_by(slide_id = self.id).first()
+            cover = Photo.query.filter_by(id = self.cover_id).first()
+            if not cover:
+                cover = Photo.query.filter_by(slide_id = self.id).first()
             return '%s/%s' % (UPLOAD_RESOURCE, cover.medium)
         except:
             return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
@@ -95,7 +99,7 @@ class Slide(db.Model):
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     slide_id = db.Column(db.Integer, db.ForeignKey('slide.id'))
-    slide = db.relationship('Slide', backref = db.backref('photos', lazy = 'dynamic'))
+    slide = db.relationship('Slide', backref = db.backref('photos', lazy = 'dynamic'), foreign_keys = 'Photo.slide_id')
     title = db.Column(db.String(128))
     description = db.Column(db.Text())
     small = db.Column(db.String(128))
