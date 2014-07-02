@@ -15,8 +15,8 @@ $(document).ready(function() {
 
 	    var title = photo.find('.photo-content');
 	    title.attr({
-		'data-bottom': 'top: 5%; opacity: 0',
-		'data-center': 'top: 10%; opacity: 1',
+		'data-bottom': 'bottom: 15%; opacity: 0',
+		'data-center': 'bottom: 25%; opacity: 1',
 	    });
 
 	    var img_url = slide.attr('data-photo');
