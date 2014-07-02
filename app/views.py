@@ -17,7 +17,8 @@ BAD_KITTY = 'Hey! Don\'t try that again!'
 
 @app.route('/')
 def index():
-    return render_template('index.html', title = 'Welcome!')
+    highlight = Journey.query.first()
+    return render_template('index.html', title = 'Welcome!', journey = highlight)
 
 @app.route('/about', methods = ['GET'])
 def about():
