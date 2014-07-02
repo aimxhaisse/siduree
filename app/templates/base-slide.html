@@ -42,16 +42,16 @@
       <div class="row">
 	{% if prev_slide %}
 	<div class="pull-left">
-	  <a class="btn btn-default btn-xs" href="{{ url_for('view_slide', slide_id=prev_slide.id) }}">
+	  <a class="btn btn-default" href="{{ url_for('view_slide', slide_id=prev_slide.id) }}">
 	    <span class="glyphicon glyphicon-chevron-left" />
-	    {{ prev_slide.title }}
+	    Previous
 	  </a>
 	</div>
 	{% endif %}
 	{% if next_slide %}
 	<div class="pull-right">
-	  <a class="btn btn-default btn-xs" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
-	    {{ next_slide.title }}
+	  <a class="btn btn-default" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
+	    Next
 	    <span class="glyphicon glyphicon-chevron-right" />
 	  </a>
 	</div>
