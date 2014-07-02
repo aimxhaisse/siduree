@@ -56,6 +56,8 @@ def populate():
     db.session.add(j)
     db.session.commit()
 
+    last_s = None
+
     for i in range(3):
         s = models.Slide()
         s.create(u"Colle Del Nivolet, 2616m", u"21th June 2014", j.id)
@@ -67,10 +69,20 @@ def populate():
         db.session.add(p)
         db.session.commit()
 
+        if i == 0:
+            s.cover_id = p.id
+            db.session.add(s)
+            db.session.commit()
+
         p = models.Photo()
         p.create(u"Piano del Nivolet, 2399m", "", s.id, 'assets/italy/day_01/IMG_4263.jpg')
         db.session.add(p)
         db.session.commit()
+
+        if i == 1:
+            s.cover_id = p.id
+            db.session.add(s)
+            db.session.commit()
 
         p = models.Photo()
         p.create(u"Colle del Nivolet, 2612m", "", s.id, 'assets/italy/day_01/IMG_4283.jpg')
@@ -82,10 +94,21 @@ def populate():
         db.session.add(p)
         db.session.commit()
 
+        if i == 2:
+            s.cover_id = p.id
+            db.session.add(s)
+            db.session.commit()
+
         p = models.Photo()
         p.create(u"Lac di Orco, 1912m", "", s.id, 'assets/italy/day_01/IMG_4290.jpg')
         db.session.add(p)
         db.session.commit()
+
+        last_s = s
+
+    j.cover_id = last_s.id
+    db.session.add(j)
+    db.session.commit()
 
 def main(what):
     if what == "dev-init":
