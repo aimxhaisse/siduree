@@ -27,7 +27,7 @@ def about():
 
 @app.route('/view-journey/<int:journey_id>')
 def view_journey(journey_id):
-    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id = journey_id).first()
     if not journey:
         flash('This journey does not exist anymore.', 'danger')
         return redirect(url_for('index'))
@@ -37,7 +37,6 @@ def view_journey(journey_id):
 @login_required
 def new_journey():
     form = NewJourneyForm()
-
     if form.validate_on_submit():
         journey = Journey()
         journey.create(form.data['title'], form.data['description'], current_user.id)
@@ -58,7 +57,6 @@ def delete_journey(journey_id):
         return redirect(url_for('index'))
 
     form = DeleteJourneyForm(journey_id = journey_id)
-
     if form.validate_on_submit():
         Journey.query.filter(Journey.id == journey_id).delete()
         db.session.commit()
@@ -72,14 +70,12 @@ def delete_journey(journey_id):
 @login_required
 def edit_journey(journey_id):
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
-
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description)
     form.cover_id.choices = [(p.id, p.title) for p in Slide.query.filter_by(journey_id = journey_id).all()]
-
     if form.validate_on_submit():
         journey.title = form.data['title']
         journey.description = form.data['description']
@@ -89,7 +85,6 @@ def edit_journey(journey_id):
         return redirect(url_for('edit_journey', journey_id = journey_id))
 
     slides = Slide.query.filter_by(journey_id = journey_id)
-
     flash_errors(form)
     return render_template('edit-journey.html', form = form, title = 'Edit journey %s' % journey.title, journey = journey, slides = slides)
 
@@ -99,13 +94,11 @@ def edit_journey(journey_id):
 @login_required
 def new_slide(journey_id):
     journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
-
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = NewSlideForm(journey_id = journey_id)
-
     if form.validate_on_submit():
         slide = Slide()
         slide.create(form.data['title'], form.data['description'], journey_id)
@@ -124,13 +117,13 @@ def delete_slide(slide_id):
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = DeleteSlideForm(slide_id = slide.id)
-
     if form.validate_on_submit():
         Slide.query.filter(Slide.id == slide_id).delete()
         db.session.commit()
@@ -147,6 +140,7 @@ def edit_slide(slide_id):
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
@@ -154,7 +148,6 @@ def edit_slide(slide_id):
 
     form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description)
     form.cover_id.choices = [(p.id, p.title) for p in Photo.query.filter_by(slide_id = slide_id).all()]
-
     if form.validate_on_submit():
         slide.title = form.data['title']
         slide.description = form.data['description']
@@ -164,7 +157,6 @@ def edit_slide(slide_id):
         return redirect(url_for('edit_slide', slide_id = slide_id))
 
     photos = Photo.query.filter_by(slide_id = slide_id)
-
     flash_errors(form)
     return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide, photos = photos)
 
@@ -187,9 +179,6 @@ def view_slide(slide_id):
     except:
         pass
 
-    print next_s
-    print prev_s
-
     return render_template('view-slide.html', slide=s, prev_slide=prev_s, next_slide=next_s)
 
 # PHOTOS
@@ -201,13 +190,13 @@ def new_photo(slide_id):
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = NewPhotoForm(slide_id = slide_id)
-
     if form.validate_on_submit():
         photo = Photo()
         tmp = tempfile.NamedTemporaryFile(suffix = '.jpg')
@@ -229,17 +218,18 @@ def edit_photo(photo_id):
     if not photo:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     slide = Slide.query.filter_by(id = photo.slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = EditPhotoForm(photo_id = photo_id, title = photo.title, description = photo.description)
-
     if form.validate_on_submit():
         photo.title = form.data['title']
         photo.description = form.data['description']
@@ -257,17 +247,18 @@ def delete_photo(photo_id):
     if not photo:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     slide = Slide.query.filter_by(id = photo.slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     form = DeletePhotoForm(photo_id = photo.id)
-
     if form.validate_on_submit():
         Photo.query.filter(Photo.id == photo_id).delete()
         db.session.commit()
@@ -285,14 +276,12 @@ def login():
         return redirect(request.referrer or '/')
 
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User()
         if user.auth(form.data['login'], form.data['password']):
             login_user(user)
             flash('Logged in successfully.', 'success')
             return redirect(request.args.get('next') or url_for('index'))
-
         flash('Login and password don\'t match', 'danger')
 
     flash_errors(form)
@@ -311,7 +300,6 @@ def register():
         return redirect(request.referrer or '/')
 
     form = RegisterForm()
-
     if form.validate_on_submit():
         try:
             user = User()
@@ -334,6 +322,7 @@ def view_user(user_id):
     if not user:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
+
     return render_template('view-user.html', user=user)
 
 @app.route('/me', methods = ['GET', 'POST'])
