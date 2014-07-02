@@ -12,9 +12,12 @@ args = parser.parse_args();
 
 def get_words():
     words = []
-    with open('/usr/share/dict/cracklib-small', 'r') as d:
-        for line in d.readlines():
-            words.append(line.strip())
+    try:
+        with open('/usr/share/dict/cracklib-small', 'r') as d:
+            for line in d.readlines():
+                words.append(line.strip())
+    except:
+        pass
     return words
 
 words = get_words()
