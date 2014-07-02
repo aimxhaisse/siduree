@@ -165,11 +165,27 @@ def edit_slide(slide_id):
 
 @app.route('/view-slide/<int:slide_id>')
 def view_slide(slide_id):
-    slide = Slide.query.filter_by(id = slide_id).first()
-    if not slide:
+    s = Slide.query.filter_by(id = slide_id).first()
+    if not s:
         flash(BAD_KITTY, 'danger')
-        return redirect(url_for('index'))    
-    return render_template('view-slide.html', slide = slide)
+        return redirect(url_for('index'))
+
+    next_s = None
+    try:
+        next_s = Slide.query.filter_by(journey_id = s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).first()
+    except:
+        pass
+
+    prev_s = None
+    try:
+        prev_s = Slide.query.filter_by(journey_id=s.journey_id).filter(Slide.id < s.id).order_by(Slide.id.desc()).first()
+    except:
+        pass
+
+    print next_s
+    print prev_s
+
+    return render_template('view-slide.html', slide=s, prev_slide=prev_s, next_slide=next_s)
 
 # PHOTOS
 

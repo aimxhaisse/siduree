@@ -24,19 +24,39 @@
   <body>
 
     <div class="container-fluid navbar navbar-default navbar-fixed-top">
-      <div class="navbar-header">
-        <h1 class="text-muted">
-	  {{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</a></small>
-	</h1>
-      </div>
+      <div class="row">
+	<div class="navbar-header">
+          <h1 class="text-muted">
+	    {{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</a></small>
+	  </h1>
+	</div>
 
-      <ul class="nav nav-pills pull-right header-right-items"> 
-        <li>
-	  <a href="{{ url_for('index') }}">
-	    <span class="glyphicon glyphicon-home"></span>
+	<ul class="nav nav-pills pull-right header-right-items"> 
+          <li>
+	    <a href="{{ url_for('index') }}">
+	      <span class="glyphicon glyphicon-home"></span>
+	    </a>
+	  </li>
+	</ul>
+      </div>
+      <div class="row">
+	{% if prev_slide %}
+	<div class="pull-left">
+	  <a class="btn btn-default btn-xs" href="{{ url_for('view_slide', slide_id=prev_slide.id) }}">
+	    <span class="glyphicon glyphicon-chevron-left" />
+	    {{ prev_slide.title }}
 	  </a>
-	</li>
-      </ul>
+	</div>
+	{% endif %}
+	{% if next_slide %}
+	<div class="pull-right">
+	  <a class="btn btn-default btn-xs" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
+	    {{ next_slide.title }}
+	    <span class="glyphicon glyphicon-chevron-right" />
+	  </a>
+	</div>
+	{% endif %}
+      </div>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}

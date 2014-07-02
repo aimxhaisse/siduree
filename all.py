@@ -52,49 +52,40 @@ def populate():
     """
 
     j = models.Journey()
-    j.create(u"Italy, Juin 2014", u"Trek de 6 jours dans les Alpes Italiennes au sein du parc national du Gran Paradiso", u.id)
+    j.create(u"Italy, June 2014", u"6 days trek in the Italian Alps in the national park of the Gran Paradiso.", u.id)
     db.session.add(j)
     db.session.commit()
 
-    s = models.Slide()
-    s.create(u"Colle Del Nivolet, 2616m", u"21 Juin 2014", j.id)
-    db.session.add(s)
-    db.session.commit()
+    for i in range(3):
+        s = models.Slide()
+        s.create(u"Colle Del Nivolet, 2616m", u"21th June 2014", j.id)
+        db.session.add(s)
+        db.session.commit()
 
-    p = models.Photo()
-    p.create(u"Vallone di Seiva", "", s.id, 'assets/italy/day_01/IMG_4257.jpg')
-    db.session.add(p)
-    db.session.commit()
+        p = models.Photo()
+        p.create(u"Croce della Roley, 2310m", "", s.id, 'assets/italy/day_01/IMG_4257.jpg')
+        db.session.add(p)
+        db.session.commit()
 
-    p = models.Photo()
-    p.create(u"Vallone di Nivolet", "", s.id, 'assets/italy/day_01/IMG_4263.jpg')
-    db.session.add(p)
-    db.session.commit()
+        p = models.Photo()
+        p.create(u"Piano del Nivolet, 2399m", "", s.id, 'assets/italy/day_01/IMG_4263.jpg')
+        db.session.add(p)
+        db.session.commit()
 
-    p = models.Photo()
-    p.create(u"Colle del Nivolet", "", s.id, 'assets/italy/day_01/IMG_4275.jpg')
-    db.session.add(p)
-    db.session.commit()
+        p = models.Photo()
+        p.create(u"Colle del Nivolet, 2612m", "", s.id, 'assets/italy/day_01/IMG_4283.jpg')
+        db.session.add(p)
+        db.session.commit()
 
-    p = models.Photo()
-    p.create(u"Colle del Nivolet", "", s.id, 'assets/italy/day_01/IMG_4283.jpg')
-    db.session.add(p)
-    db.session.commit()
+        p = models.Photo()
+        p.create(u"Valle dell' Orco, 2585m", "", s.id, 'assets/italy/day_01/IMG_4286.jpg')
+        db.session.add(p)
+        db.session.commit()
 
-    p = models.Photo()
-    p.create(u"Colle del Nivolet", "", s.id, 'assets/italy/day_01/IMG_4284.jpg')
-    db.session.add(p)
-    db.session.commit()
-
-    p = models.Photo()
-    p.create(u"Colle del Nivolet", "", s.id, 'assets/italy/day_01/IMG_4286.jpg')
-    db.session.add(p)
-    db.session.commit()
-
-    p = models.Photo()
-    p.create(u"Colle del Nivolet", "", s.id, 'assets/italy/day_01/IMG_4290.jpg')
-    db.session.add(p)
-    db.session.commit()
+        p = models.Photo()
+        p.create(u"Lac di Orco, 1912m", "", s.id, 'assets/italy/day_01/IMG_4290.jpg')
+        db.session.add(p)
+        db.session.commit()
 
 def main(what):
     if what == "dev-init":
