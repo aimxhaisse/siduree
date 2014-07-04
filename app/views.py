@@ -77,8 +77,9 @@ def edit_journey(journey_id):
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description)
+    form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description, cover_id = journey.cover_id)
     form.cover_id.choices = [(p.id, p.title) for p in Slide.query.filter_by(journey_id = journey_id).all()]
+
     if form.validate_on_submit():
         journey.title = form.data['title']
         journey.description = form.data['description']
@@ -149,7 +150,7 @@ def edit_slide(slide_id):
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description)
+    form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description, cover_id = slide.cover_id)
     form.cover_id.choices = [(p.id, p.title) for p in Photo.query.filter_by(slide_id = slide_id).all()]
     if form.validate_on_submit():
         slide.title = form.data['title']
