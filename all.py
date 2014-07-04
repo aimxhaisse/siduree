@@ -3,6 +3,7 @@
 
 import argparse
 import subprocess
+import os
 from app import db, models
 from random import random
 
@@ -63,9 +64,10 @@ def populate_italy():
     db.session.add(j)
     db.session.commit()
 
-    # slide 1
+    print "slide 1"
+
     s = models.Slide()
-    s.create(u'Day 1: Colle Del Nivolet, 2616m', u'21th June 2014', j.id)
+    s.create(u'Day 1: Colle del Nivolet, 2616m', u'21th June 2014', j.id)
     db.session.add(s)
     db.session.commit()
 
@@ -102,7 +104,8 @@ def populate_italy():
     db.session.add(j)
     db.session.commit()
 
-    # slide 2
+    print "slide 2"
+
     s = models.Slide()
     s.create(u'Day 2: Rifugio Noaschetta, 1549m', '22th June 2014', j.id)
     db.session.add(s)
@@ -143,7 +146,8 @@ def populate_italy():
     db.session.add(p)
     db.session.commit()
 
-    # slide 3
+    print "slide 3"
+
     s = models.Slide()
     s.create(u"Day 3: Bivouac Ivrea, 2770m", "23th June 2014", j.id)
     db.session.add(s)
@@ -206,6 +210,219 @@ def populate_italy():
 
     p = models.Photo()
     p.create(u"Bivouac Ivrea, 2770m", "", s.id, 'assets/italy/day_03/IMG_4412.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    print "slide 4"
+
+    s = models.Slide()
+    s.create(u'Day 4: Colle dei Becchi, 2990m', u'24th June 2014', j.id)
+    db.session.add(s)
+    db.session.commit()    
+
+    p = models.Photo()
+    p.create(u'Bivouac Ivrea, 2770m', '', s.id, 'assets/italy/day_04/IMG_4424.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Becchi della Tribolazione, 2836m', '', s.id, 'assets/italy/day_04/IMG_4433.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Becchi della Tribolazione, 2836m', '', s.id, 'assets/italy/day_04/IMG_4438.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Colle dei Becchi, 2990m', '', s.id, 'assets/italy/day_04/IMG_4443.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Colle dei Becchi, 2665m', '', s.id, 'assets/italy/day_04/IMG_4461.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Rifugio Pontese, 2200m', '', s.id, 'assets/italy/day_04/IMG_4469.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Lago di Teleccio, 1917m', '', s.id, 'assets/italy/day_04/IMG_4477.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Rifugio Pontese, 2200m', '', s.id, 'assets/italy/day_04/IMG_4487.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Rifugio Pontese, 2200m', '', s.id, 'assets/italy/day_04/IMG_4490.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Scala di Teleccio, 1740m', '', s.id, 'assets/italy/day_04/IMG_4511.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    print "slide 5"
+
+    s = models.Slide()
+    s.create(u'Day 5: Back to Valsavarenche, 1960m', u'25th June 2014', j.id)
+    db.session.add(s)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Lago di Ceresole Reale, 1588m', '', s.id, 'assets/italy/day_05/IMG_4519.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Costa della Civetta, 2593m', '', s.id, 'assets/italy/day_05/IMG_4522.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Break at Colle del Nivolet, 2612m', '', s.id, 'assets/italy/day_05/IMG_4567.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Marmots in Piano del Nivolet, 2399m', '', s.id, 'assets/italy/day_05/IMG_4580.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Piano del Nivolet, 2399m', '', s.id, 'assets/italy/day_05/IMG_4588.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Costa Arolley, 2310m', '', s.id, 'assets/italy/day_05/IMG_4590.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Costa Arolley, 2310m', '', s.id, 'assets/italy/day_05/IMG_4593.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    print "slide 6"
+
+    s = models.Slide()
+    s.create(u'Day 6: Pian della Tumetta, 2418m', u'26th June 2014', j.id)
+    db.session.add(s)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Aosta, city center', '', s.id, 'assets/italy/day_06/IMG_4599.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Aosta, city center', '', s.id, 'assets/italy/day_06/IMG_4602.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Cogne, the church', '', s.id, 'assets/italy/day_06/IMG_4605.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Back into the wild, an ibex', '', s.id, 'assets/italy/day_06/IMG_4630.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Grandzetta, 2140m', '', s.id, 'assets/italy/day_06/IMG_4636.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Grandzetta, 2140m', '', s.id, 'assets/italy/day_06/IMG_4640.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Pian de la Tumetta, 2418m', '', s.id, 'assets/italy/day_06/IMG_4657.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Pian de la Tumetta, 2418m', '', s.id, 'assets/italy/day_06/IMG_4662.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Pian de la Tumetta, 2418m', '', s.id, 'assets/italy/day_06/IMG_4671.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    print "slide 7"
+
+    s = models.Slide()
+    s.create(u'Day 7: Gran Lauson, 3101m', u'27th June 2014', j.id)
+    db.session.add(s)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Ibex in the morning near Toule, 1994m', '', s.id, 'assets/italy/day_07/IMG_4675.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near La Pascieu, 2114m', '', s.id, 'assets/italy/day_07/IMG_4679.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Rifugio V. Sella, 2584m', '', s.id, 'assets/italy/day_07/IMG_4681.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Gran Lauson, 2844m', '', s.id, 'assets/italy/day_07/IMG_4683.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Gran Lauson, 2844m', '', s.id, 'assets/italy/day_07/IMG_4684.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Gran Lauson, 3000m', '', s.id, 'assets/italy/day_07/IMG_4686.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Gran Lauson, 3000m', '', s.id, 'assets/italy/day_07/IMG_4692.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Gran Lauson, 3101m', '', s.id, 'assets/italy/day_07/IMG_4693.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near Rifugio V. Sella, 2584m', '', s.id, 'assets/italy/day_07/IMG_4697.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Tramouial, 2227m', '', s.id, 'assets/italy/day_07/IMG_4702.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Near La Pascieu, 2114m', '', s.id, 'assets/italy/day_07/IMG_4708.jpg')
     db.session.add(p)
     db.session.commit()
 
