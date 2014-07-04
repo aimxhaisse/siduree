@@ -19,7 +19,6 @@ class RegisterForm(Form):
 class NewJourneyForm(Form):
     title = TextField('Title', [Required()])
     description = TextAreaField('Description')
-    cover_id = SelectField('Cover', coerce=int)
 
 class EditJourneyForm(Form):
     journey_id = HiddenField('Journey', [Required()])

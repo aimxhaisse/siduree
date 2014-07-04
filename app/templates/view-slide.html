@@ -13,6 +13,21 @@
     </a>
   </div>
 
+  {% if not slide.photos.first() %}
+  <section id="slide-1" class="slide" data-photo="{{ url_for('static', filename = 'img/notfound-1920.png') }}">
+    <div class="photo-background">
+      <div class="photo-container">
+	<div class="photo-content">
+          <h2>Oops</h2>
+	  <p>
+	    No photo available for this slide.
+	  </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
   {% for photo in slide.photos %}
 
   <section id="slide-{{ photo.id }}" class="slide" data-photo="{{ url_for('static', filename = photo.get_large()) }}">

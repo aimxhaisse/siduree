@@ -32,6 +32,8 @@ def view_journey(journey_id):
     if not journey:
         flash('This journey does not exist anymore.', 'danger')
         return redirect(url_for('index'))
+    if not journey.slides.first():
+        flash('No slide available for this journey.', 'danger')
     return render_template('view-journey.html', journey = journey)
 
 @app.route('/new-journey', methods = ['GET', 'POST'])
@@ -106,7 +108,7 @@ def new_slide(journey_id):
         db.session.add(slide)
         db.session.commit()
         flash('Slide added to journey', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('edit_journey', journey_id = journey_id))
 
     flash_errors(form)
     return render_template('new-slide.html', form = form, title = 'New Slide')

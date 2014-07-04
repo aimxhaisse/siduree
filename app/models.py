@@ -4,7 +4,7 @@ from uuid import uuid4
 import os
 
 UPLOAD_RESOURCE = 'uploads/'
-IMAGE_NOT_FOUND = 'not-found.jpg'
+IMAGE_NOT_FOUND = 'notfound-640.png'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -69,7 +69,7 @@ class Journey(db.Model):
             s = Slide.query.filter_by(id = self.cover_id).first()
             return s.get_cover()
         except:
-            return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
+            return 'img/%s' % IMAGE_NOT_FOUND
 
 class Slide(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -91,7 +91,7 @@ class Slide(db.Model):
                 cover = Photo.query.filter_by(slide_id = self.id).first()
             return '%s/%s' % (UPLOAD_RESOURCE, cover.medium)
         except:
-            return '%s/%s' % (UPLOAD_RESOURCE, IMAGE_NOT_FOUND)
+            return 'img/%s' % IMAGE_NOT_FOUND
 
     def __repr__(self):
         return '<SlideShow %s>' % self.title
