@@ -65,17 +65,17 @@ def populate_italy():
 
     # slide 1
     s = models.Slide()
-    s.create(u"Colle Del Nivolet, 2616m", u"21th June 2014", j.id)
+    s.create(u'Day 1: Colle Del Nivolet, 2616m', u'21th June 2014', j.id)
     db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
-    p.create(u"Croce della Roley, 2310m", "", s.id, 'assets/italy/day_01/IMG_4257.jpg')
+    p.create(u'Croce della Roley, 2310m', '', s.id, 'assets/italy/day_01/IMG_4257.jpg')
     db.session.add(p)
     db.session.commit()
 
     p = models.Photo()
-    p.create(u"Piano del Nivolet, 2399m", "", s.id, 'assets/italy/day_01/IMG_4263.jpg')
+    p.create(u'Piano del Nivolet, 2399m', '', s.id, 'assets/italy/day_01/IMG_4263.jpg')
     db.session.add(p)
     db.session.commit()
 
@@ -84,22 +84,129 @@ def populate_italy():
     db.session.commit()
 
     p = models.Photo()
-    p.create(u"Colle del Nivolet, 2612m", "", s.id, 'assets/italy/day_01/IMG_4283.jpg')
+    p.create(u'Colle del Nivolet, 2612m', '', s.id, 'assets/italy/day_01/IMG_4283.jpg')
     db.session.add(p)
     db.session.commit()
 
     p = models.Photo()
-    p.create(u"Valle dell' Orco, 2585m", "", s.id, 'assets/italy/day_01/IMG_4286.jpg')
+    p.create(u'Valle dell\' Orco, 2585m', '', s.id, 'assets/italy/day_01/IMG_4286.jpg')
     db.session.add(p)
     db.session.commit()
 
     p = models.Photo()
-    p.create(u"Lac di Orco, 1912m", "", s.id, 'assets/italy/day_01/IMG_4290.jpg')
+    p.create(u'Lac di Orco, 1912m', '', s.id, 'assets/italy/day_01/IMG_4290.jpg')
     db.session.add(p)
     db.session.commit()
 
     j.cover_id = s.id
     db.session.add(j)
+    db.session.commit()
+
+    # slide 2
+    s = models.Slide()
+    s.create(u'Day 2: Rifugio Noaschetta, 1549m', '22th June 2014', j.id)
+    db.session.add(s)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Abandoned house near Pian Domeni, 1194m', '', s.id, 'assets/italy/day_02/IMG_4294.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Valle dell\' Orco, 1167m', '', s.id, 'assets/italy/day_02/IMG_4298.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Tunnel to Noasca, 1146m', '', s.id, 'assets/italy/day_02/IMG_4308.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Break at Noasca, 1061m', '', s.id, 'assets/italy/day_02/IMG_4328.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Storm near Pian Segio, 1429m', '', s.id, 'assets/italy/day_02/IMG_4331.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Around Rifugio Noaschetta, 1549m', '', s.id, 'assets/italy/day_02/IMG_4336.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u'Rio Noaschetta, 1549m', '', s.id, 'assets/italy/day_02/IMG_4340.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    # slide 3
+    s = models.Slide()
+    s.create(u"Day 3: Bivouac Ivrea, 2770m", "23th June 2014", j.id)
+    db.session.add(s)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Vallone di Noaschetta, 1568m", "", s.id, 'assets/italy/day_03/IMG_4353.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Vallone di Noaschetta, 1589m", "", s.id, 'assets/italy/day_03/IMG_4357.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Vallone di Noaschetta, 1804m", "", s.id, 'assets/italy/day_03/IMG_4359.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Crossroads, 2414m", "", s.id, 'assets/italy/day_03/IMG_4370.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Around Piano della Bruna, 2473m", "", s.id, 'assets/italy/day_03/IMG_4375.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Around Piano della Bruna, 2473m", "", s.id, 'assets/italy/day_03/IMG_4379.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Around Piano della Bruna, 2473m", "", s.id, 'assets/italy/day_03/IMG_4380.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"A. la Motta, 2653m", "", s.id, 'assets/italy/day_03/IMG_4384.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Chamois near A. la Motta, 2653m", "", s.id, 'assets/italy/day_03/IMG_4393.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Near Bivouac Ivrea, 2770m", "", s.id, 'assets/italy/day_03/IMG_4396.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Near Bivouac Ivrea, 2770m", "", s.id, 'assets/italy/day_03/IMG_4398.jpg')
+    db.session.add(p)
+    db.session.commit()
+
+    p = models.Photo()
+    p.create(u"Bivouac Ivrea, 2770m", "", s.id, 'assets/italy/day_03/IMG_4412.jpg')
+    db.session.add(p)
     db.session.commit()
 
 def main(what):
