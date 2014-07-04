@@ -81,10 +81,6 @@ def populate_italy():
     db.session.add(p)
     db.session.commit()
 
-    s.cover_id = p.id
-    db.session.add(s)
-    db.session.commit()
-
     p = models.Photo()
     p.create(u'Colle del Nivolet, 2612m', '', s.id, 'assets/italy/day_01/IMG_4283.jpg')
     db.session.add(p)
@@ -93,6 +89,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u'Valle dell\' Orco, 2585m', '', s.id, 'assets/italy/day_01/IMG_4286.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
@@ -114,6 +114,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u'Abandoned house near Pian Domeni, 1194m', '', s.id, 'assets/italy/day_02/IMG_4294.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
@@ -161,6 +165,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u"Vallone di Noaschetta, 1589m", "", s.id, 'assets/italy/day_03/IMG_4357.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
@@ -225,6 +233,10 @@ def populate_italy():
     db.session.add(p)
     db.session.commit()
 
+    s.cover_id = p.id
+    db.session.add(s)
+    db.session.commit()
+
     p = models.Photo()
     p.create(u'Becchi della Tribolazione, 2836m', '', s.id, 'assets/italy/day_04/IMG_4433.jpg')
     db.session.add(p)
@@ -285,6 +297,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u'Costa della Civetta, 2593m', '', s.id, 'assets/italy/day_05/IMG_4522.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
@@ -352,6 +368,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u'Pian de la Tumetta, 2418m', '', s.id, 'assets/italy/day_06/IMG_4657.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
     p = models.Photo()
@@ -424,6 +444,10 @@ def populate_italy():
     p = models.Photo()
     p.create(u'Near La Pascieu, 2114m', '', s.id, 'assets/italy/day_07/IMG_4708.jpg')
     db.session.add(p)
+    db.session.commit()
+
+    s.cover_id = p.id
+    db.session.add(s)
     db.session.commit()
 
 def main(what):
