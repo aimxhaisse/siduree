@@ -26,25 +26,18 @@
     <div class="container-fluid navbar navbar-default navbar-fixed-top" id="view-slide-top">
       <div class="row">
 	<div class="navbar-header">
-          <h1 class="text-muted">
+          <h1>
+	    <span class="text-muted">{{ nb_offset }}/{{ nb_items }}</span>
 	    {{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</a></small>
 	  </h1>
 	</div>
 
 	<div class="pull-right header-right-items">
 	  <ul class="nav nav-pills pull-right"> 
-	    {% if prev_slide %}
-	    <li>
-	      <a class="btn btn-default" href="{{ url_for('view_slide', slide_id=prev_slide.id) }}">
-		<span class="glyphicon glyphicon-chevron-left" />
-		Previous
-	      </a>
-	    </li>
-	    {% endif %}
 	    {% if next_slide %}
 	    <li>
-	      <a class="btn btn-default" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
-		Next
+	      <a class="btn btn-default btn-success" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
+		Continue the Tour
 		<span class="glyphicon glyphicon-chevron-right" />
 	      </a>
 	    </li>

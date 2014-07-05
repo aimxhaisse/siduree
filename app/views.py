@@ -177,13 +177,10 @@ def view_slide(slide_id):
     except:
         pass
 
-    prev_s = None
-    try:
-        prev_s = Slide.query.filter_by(journey_id=s.journey_id).filter(Slide.id < s.id).order_by(Slide.id.desc()).first()
-    except:
-        pass
+    nb_items = Slide.query.filter_by(journey_id = s.journey_id).order_by(Slide.id.asc()).count()
+    nb_offset = nb_items - Slide.query.filter_by(journey_id = s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).count()
 
-    return render_template('view-slide.html', slide=s, prev_slide=prev_s, next_slide=next_s)
+    return render_template('view-slide.html', slide=s, next_slide=next_s, nb_items=nb_items, nb_offset=nb_offset)
 
 # PHOTOS
 
