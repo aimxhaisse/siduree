@@ -1,7 +1,7 @@
 from PIL import Image
 
 LARGE_WIDTH = 1920
-MEDIUM_WIDTH = 640
+MEDIUM_WIDTH = 800
 SMALL_WIDTH = 320
 OUTPUT_DIR = 'app/static/uploads/'
 

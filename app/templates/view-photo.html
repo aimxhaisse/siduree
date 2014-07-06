@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set active_page = 'user' %}
+{% block content %}
+<div class="container main">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{ photo.title }} <small>by <a href="{{ url_for('view_user', user_id=photo.slide.journey.user.id) }}">{{ photo.slide.journey.user.login }}</a></small></h1>
+      <a href="{{ url_for('static', filename = photo.get_large()) }}" class="thumbnail">
+	<img src="{{ url_for('static', filename = photo.get_medium()) }}" alt="{{ photo.description }}" />
+      </a>
+      {% if photo.description %}<p>{{ photo.description }}</p>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

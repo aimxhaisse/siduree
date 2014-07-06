@@ -41,6 +41,9 @@
 	      <span class="glyphicon glyphicon-chevron-right" />
 	    </a>
 	    {% endif %}
+	    <a class="btn btn-default" href="{{ url_for('view_photo', photo_id=photo.id) }}">
+	      <span class="glyphicon glyphicon-link" />
+	    </a>
 	  </div>
 	  {% if photo.description %}
 	  <p>

@@ -4,7 +4,7 @@ from uuid import uuid4
 import os
 
 UPLOAD_RESOURCE = 'uploads/'
-IMAGE_NOT_FOUND = 'notfound-640.png'
+IMAGE_NOT_FOUND = 'notfound-800.png'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -125,6 +125,9 @@ class Photo(db.Model):
 
     def get_large(self):
         return '%s/%s' % (UPLOAD_RESOURCE, self.large)
+
+    def get_medium(self):
+        return '%s/%s' % (UPLOAD_RESOURCE, self.medium)
 
     def __repr__(self):
         return '<Photo %s>' % self.title

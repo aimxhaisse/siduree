@@ -270,6 +270,14 @@ def delete_photo(photo_id):
     flash_errors(form)
     return render_template('delete-photo.html', form = form, photo = photo, title = 'Delete photo %s' % photo.title)
 
+@app.route('/view-photo/<int:photo_id>', methods = ['GET'])
+def view_photo(photo_id):
+    photo = Photo.query.filter_by(id = photo_id).first()
+    if not photo:
+        flash(BAD_KITTY, 'danger')
+        return redirect(url_for('index'))
+    return render_template('view-photo.html', photo = photo)
+
 # USERS
 
 @app.route('/login', methods = ['GET', 'POST'])
