@@ -3,16 +3,6 @@
 {% block content %}
 <div class="container main">
 
-  <div id="control">
-    <a href="#" id="go-up">
-      <span class="glyphicon glyphicon-chevron-up" />
-    </a>
-    <br />
-    <a href="#" id="go-down">
-      <span class="glyphicon glyphicon-chevron-down" />
-    </a>
-  </div>
-
   {% if not slide.photos.first() %}
   <section id="slide-1" class="slide" data-photo="{{ url_for('static', filename = 'img/notfound-1920.png') }}">
     <div class="photo-background">
@@ -34,7 +24,26 @@
     <div class="photo-background">
       <div class="photo-container">
 	<div class="photo-content">
-          <h2>{{ photo.title }}</h2>
+	  <div class="photo-content-head">
+            <h2><small>{{ loop.index }}/{{ nb_photos }}</small> {{ photo.title }}</h2>
+	    {% if loop.index > 1 %}
+	    <a class="go-prev btn btn-default btn-success" href="#">
+	      <span class="glyphicon glyphicon-chevron-left" />
+	      Prev
+	    </a>
+	    {% endif %}
+	    {% if loop.index != nb_photos %}
+	    <a class="go-next btn btn-default btn-success" href="#">
+	      Next
+	      <span class="glyphicon glyphicon-chevron-right" />
+	    </a>
+	    {% elif next_slide %}
+	    <a class="btn btn-default btn-success" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
+	      Continue the Tour
+	      <span class="glyphicon glyphicon-chevron-right" />
+	    </a>
+	    {% endif %}
+	  </div>
 	  {% if photo.description %}
 	  <p>
 	    {{ photo.description }}
