@@ -25,15 +25,15 @@
 
     <div class="container-fluid navbar navbar-default navbar-fixed-top" id="view-slide-top">
       <div class="row">
-	<div class="navbar-header">
+	<div class="navbar-header col-md-9">
           <h1>
 	    <span class="text-muted">{{ nb_offset }}/{{ nb_items }}</span>
 	    {{ slide.title }} <small>by <a href="{{ url_for('view_user', user_id = slide.journey.user.id) }}">{{ slide.journey.user.login }}</a></small>
 	  </h1>
 	</div>
 
-	<div class="pull-right header-right-items">
-	  <ul class="nav nav-pills pull-right"> 
+	<div class="col-md-3">
+	  <ul class="header-right-items nav nav-pills pull-right"> 
 	    {% if next_slide %}
 	    <li>
 	      <a class="btn btn-default btn-success" href="{{ url_for('view_slide', slide_id=next_slide.id) }}">
