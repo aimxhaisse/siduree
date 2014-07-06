@@ -93,6 +93,9 @@ class Slide(db.Model):
         except:
             return 'img/%s' % IMAGE_NOT_FOUND
 
+    def get_nb_photos(self):
+        return Photo.query.filter_by(slide_id = self.id).count()
+
     def __repr__(self):
         return '<SlideShow %s>' % self.title
 
