@@ -26,12 +26,10 @@
 	<div class="photo-content">
 	  <div class="photo-content-head">
             <h2><small>{{ loop.index }}/{{ nb_photos }}</small> {{ photo.title }}</h2>
-	    {% if loop.index > 1 %}
-	    <a class="go-prev btn btn-default btn-success" href="#">
+	    <a class="go-prev btn btn-default {% if loop.index > 1 %}btn-success{% endif %}" href="#">
 	      <span class="glyphicon glyphicon-chevron-left" />
 	      Prev
 	    </a>
-	    {% endif %}
 	    {% if loop.index != nb_photos %}
 	    <a class="go-next btn btn-default btn-success" href="#">
 	      Next
