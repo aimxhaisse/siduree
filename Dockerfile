@@ -9,9 +9,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y python python-pip libjp
 RUN ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
 RUN ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
 RUN ln -s ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
-RUN pip install Flask Flask-SQLAlchemy Flask-WTF Flask-login PIL cherrypy
+RUN pip install Flask Flask-SQLAlchemy Flask-WTF Flask-login PIL tornado
 
 ADD . /code
 WORKDIR /code
-RUN python all.py dev-init
 CMD python run.py
