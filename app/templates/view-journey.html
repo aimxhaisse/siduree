@@ -6,6 +6,7 @@
   <div class="row" id="view-journey-header">
     <div class="col-md-9">
       <h1>{{ journey.title }} <small>by <a href="{{ url_for('view_user', user_id=journey.user.id) }}">{{ journey.user.login }}</a></small></h1>
+      <h4><small>{{ journey.get_nb_slides() }} slides</small></h4>
     </div>
     <div class="col-md-3">
       {% if journey.slides and journey.slides.first() %}

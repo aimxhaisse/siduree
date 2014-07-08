@@ -13,10 +13,12 @@
   </p>
 </div>
 <div class="container">
+  {% if journey %}
   <div class="row" id="view-journey-header">
     <div class="col-md-7">
       <h2>Highlight</h2>
       <h3><a href="{{ url_for('view_journey', journey_id = journey.id) }}">{{ journey.title }}</a> <small>by <a href="{{ url_for('view_user', user_id=journey.user.id) }}">{{ journey.user.login }}</a></small></h3>
+      <h4>{{ journey.get_nb_slides() }} slides</h4>
       <p>
 	{{ journey.description }}
       </p>
@@ -29,5 +31,6 @@
       </span>
     </div>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

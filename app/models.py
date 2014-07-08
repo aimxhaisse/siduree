@@ -64,6 +64,9 @@ class Journey(db.Model):
     def __repr__(self):
         return '<Journey %s>' % self.title
 
+    def get_nb_slides(self):
+        return Slide.query.filter_by(journey_id = self.id).count()
+
     def get_cover(self):
         try:
             s = Slide.query.filter_by(id = self.cover_id).first()

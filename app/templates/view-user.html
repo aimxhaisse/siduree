@@ -9,6 +9,7 @@
     {% if loop.index % 2 %}
     <div class="col-md-7">
       <h3><a href="{{ url_for('view_journey', journey_id = journey.id) }}">{{ journey.title }}</a></h3>
+      <h4>{{ journey.get_nb_slides() }} slides</h4>
       <p>
 	{{ journey.description }}
       </p>
