@@ -18,11 +18,11 @@ BAD_KITTY = 'Hey! Don\'t try that again!'
 @app.route('/')
 def index():
     highlight = Journey.query.first()
-    return render_template('index.html', title = 'Welcome!', journey = highlight)
+    return render_template('index.html', title='Welcome!', journey=highlight)
 
 @app.route('/about', methods = ['GET'])
 def about():
-    return render_template('about.html', title = 'About')
+    return render_template('about.html', title='About')
 
 # --- JOURNEYS
 
@@ -34,7 +34,7 @@ def view_journey(journey_id):
         return redirect(url_for('index'))
     if not journey.slides.first():
         flash('No slide available for this journey.', 'danger')
-    return render_template('view-journey.html', journey = journey)
+    return render_template('view-journey.html', journey=journey, title=journey.title)
 
 @app.route('/new-journey', methods = ['GET', 'POST'])
 @login_required
@@ -45,21 +45,21 @@ def new_journey():
         journey.create(form.data['title'], form.data['description'], current_user.id)
         db.session.add(journey)
         db.session.commit()
-        flash('Journey %s successfully created.' % journey.title, 'success')
-        return redirect(url_for('new_slide', journey_id = journey.id))
+        flash('Journey %s successfully created.' % journey.title, 'success', title='New Journey')
+        return redirect(url_for('new_slide', journey_id=journey.id))
 
     flash_errors(form)
-    return render_template('new-journey.html', form = form, title = 'New Journey')
+    return render_template('new-journey.html', form=form, title='New Journey')
 
-@app.route('/delete-journey/<int:journey_id>', methods = ['GET', 'POST'])
+@app.route('/delete-journey/<int:journey_id>', methods=['GET', 'POST'])
 @login_required
 def delete_journey(journey_id):
-    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = DeleteJourneyForm(journey_id = journey_id)
+    form = DeleteJourneyForm(journey_id=journey_id)
     if form.validate_on_submit():
         Journey.query.filter(Journey.id == journey_id).delete()
         db.session.commit()
@@ -67,18 +67,18 @@ def delete_journey(journey_id):
         return redirect(url_for('me'))
 
     flash_errors(form)
-    return render_template('delete-journey.html', form = form, journey = journey, title = 'Delete journey %s' % journey.title)
+    return render_template('delete-journey.html', form=form, journey=journey, title='Delete journey %s' % journey.title)
 
 @app.route('/edit-journey/<int:journey_id>', methods = ['GET', 'POST'])
 @login_required
 def edit_journey(journey_id):
-    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = EditJourneyForm(journey_id = journey_id, title = journey.title, description = journey.description, cover_id = journey.cover_id)
-    form.cover_id.choices = [(p.id, p.title) for p in Slide.query.filter_by(journey_id = journey_id).all()]
+    form = EditJourneyForm(journey_id=journey_id, title=journey.title, description=journey.description, cover_id=journey.cover_id)
+    form.cover_id.choices = [(p.id, p.title) for p in Slide.query.filter_by(journey_id=journey_id).all()]
 
     if form.validate_on_submit():
         journey.title = form.data['title']
@@ -86,119 +86,119 @@ def edit_journey(journey_id):
         journey.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Journey successfully updated.', 'success')
-        return redirect(url_for('edit_journey', journey_id = journey_id))
+        return redirect(url_for('edit_journey', journey_id=journey_id))
 
-    slides = Slide.query.filter_by(journey_id = journey_id)
+    slides = Slide.query.filter_by(journey_id=journey_id)
     flash_errors(form)
-    return render_template('edit-journey.html', form = form, title = 'Edit journey %s' % journey.title, journey = journey, slides = slides)
+    return render_template('edit-journey.html', form=form, title='Edit journey %s' % journey.title, journey=journey, slides=slides)
 
 # SLIDES
 
-@app.route('/new-slide/<int:journey_id>', methods = ['GET', 'POST'])
+@app.route('/new-slide/<int:journey_id>', methods=['GET', 'POST'])
 @login_required
 def new_slide(journey_id):
-    journey = Journey.query.filter_by(id = journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = NewSlideForm(journey_id = journey_id)
+    form = NewSlideForm(journey_id=journey_id)
     if form.validate_on_submit():
         slide = Slide()
         slide.create(form.data['title'], form.data['description'], journey_id)
         db.session.add(slide)
         db.session.commit()
         flash('Slide added to journey', 'success')
-        return redirect(url_for('edit_journey', journey_id = journey_id))
+        return redirect(url_for('edit_journey', journey_id=journey_id))
 
     flash_errors(form)
-    return render_template('new-slide.html', form = form, title = 'New Slide')
+    return render_template('new-slide.html', form=form, title='New Slide')
 
-@app.route('/delete-slide/<int:slide_id>', methods = ['GET', 'POST'])
+@app.route('/delete-slide/<int:slide_id>', methods=['GET', 'POST'])
 @login_required
 def delete_slide(slide_id):
-    slide = Slide.query.filter_by(id = slide_id).first()
+    slide = Slide.query.filter_by(id=slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=slide.journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = DeleteSlideForm(slide_id = slide.id)
+    form = DeleteSlideForm(slide_id=slide.id)
     if form.validate_on_submit():
         Slide.query.filter(Slide.id == slide_id).delete()
         db.session.commit()
         flash('Slide successfully deleted.', 'success')
-        return redirect(url_for('edit_journey', journey_id = journey.id))
+        return redirect(url_for('edit_journey', journey_id=journey.id))
 
     flash_errors(form)
-    return render_template('delete-slide.html', form = form, slide = slide, title = 'Delete slide %s' % slide.title)
+    return render_template('delete-slide.html', form=form, slide=slide, title='Delete slide %s' % slide.title)
 
-@app.route('/edit-slide/<int:slide_id>', methods = ['GET', 'POST'])
+@app.route('/edit-slide/<int:slide_id>', methods=['GET', 'POST'])
 @login_required
 def edit_slide(slide_id):
-    slide = Slide.query.filter_by(id = slide_id).first()
+    slide = Slide.query.filter_by(id=slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=slide.journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = EditSlideForm(slide_id = slide_id, title = slide.title, description = slide.description, cover_id = slide.cover_id)
-    form.cover_id.choices = [(p.id, p.title) for p in Photo.query.filter_by(slide_id = slide_id).all()]
+    form = EditSlideForm(slide_id=slide_id, title=slide.title, description=slide.description, cover_id=slide.cover_id)
+    form.cover_id.choices = [(p.id, p.title) for p in Photo.query.filter_by(slide_id=slide_id).all()]
     if form.validate_on_submit():
         slide.title = form.data['title']
         slide.description = form.data['description']
         slide.cover_id = form.data['cover_id']
         db.session.commit()
         flash('Slide successfully updated.', 'success')
-        return redirect(url_for('edit_slide', slide_id = slide_id))
+        return redirect(url_for('edit_slide', slide_id=slide_id))
 
-    photos = Photo.query.filter_by(slide_id = slide_id)
+    photos = Photo.query.filter_by(slide_id=slide_id)
     flash_errors(form)
-    return render_template('edit-slide.html', form = form, title = 'Edit slide %s' % slide.title, slide = slide, photos = photos)
+    return render_template('edit-slide.html', form=form, title='Edit slide %s' % slide.title, slide=slide, photos=photos)
 
 @app.route('/view-slide/<int:slide_id>')
 def view_slide(slide_id):
-    s = Slide.query.filter_by(id = slide_id).first()
+    s = Slide.query.filter_by(id=slide_id).first()
     if not s:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
     next_s = None
     try:
-        next_s = Slide.query.filter_by(journey_id = s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).first()
+        next_s = Slide.query.filter_by(journey_id=s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).first()
     except:
         pass
 
-    nb_photos = Photo.query.filter_by(slide_id = s.id).count()
-    nb_items = Slide.query.filter_by(journey_id = s.journey_id).count()
-    nb_offset = nb_items - Slide.query.filter_by(journey_id = s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).count()
+    nb_photos = Photo.query.filter_by(slide_id=s.id).count()
+    nb_items = Slide.query.filter_by(journey_id=s.journey_id).count()
+    nb_offset = nb_items - Slide.query.filter_by(journey_id=s.journey_id).filter(Slide.id > s.id).order_by(Slide.id.asc()).count()
 
-    return render_template('view-slide.html', slide=s, next_slide=next_s, nb_items=nb_items, nb_offset=nb_offset, nb_photos = nb_photos)
+    return render_template('view-slide.html', title=s.title, slide=s, next_slide=next_s, nb_items=nb_items, nb_offset=nb_offset, nb_photos=nb_photos)
 
 # PHOTOS
 
 @app.route('/new-photo/<int:slide_id>', methods = ['GET', 'POST'])
 @login_required
 def new_photo(slide_id):
-    slide = Slide.query.filter_by(id = slide_id).first()
+    slide = Slide.query.filter_by(id=slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=slide.journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = NewPhotoForm(slide_id = slide_id)
+    form = NewPhotoForm(slide_id=slide_id)
     if form.validate_on_submit():
         photo = Photo()
         tmp = tempfile.NamedTemporaryFile(suffix = '.jpg')
@@ -208,79 +208,79 @@ def new_photo(slide_id):
         db.session.add(photo)
         db.session.commit()
         flash('Photo added to slide', 'success')
-        return redirect(url_for('edit_slide', slide_id = slide_id))
+        return redirect(url_for('edit_slide', slide_id=slide_id))
 
     flash_errors(form)
-    return render_template('new-photo.html', form = form, title = 'New Photo')
+    return render_template('new-photo.html', form=form, title='New Photo')
 
-@app.route('/edit-photo/<int:photo_id>', methods = ['GET', 'POST'])
+@app.route('/edit-photo/<int:photo_id>', methods=['GET', 'POST'])
 @login_required
 def edit_photo(photo_id):
-    photo = Photo.query.filter_by(id = photo_id).first()
+    photo = Photo.query.filter_by(id=photo_id).first()
     if not photo:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    slide = Slide.query.filter_by(id = photo.slide_id).first()
+    slide = Slide.query.filter_by(id=photo.slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=slide.journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = EditPhotoForm(photo_id = photo_id, title = photo.title, description = photo.description)
+    form = EditPhotoForm(photo_id=photo_id, title=photo.title, description=photo.description)
     if form.validate_on_submit():
         photo.title = form.data['title']
         photo.description = form.data['description']
         db.session.commit()
         flash('Photo successfully updated.', 'success')
-        return redirect(url_for('edit_photo', photo_id = photo_id))
+        return redirect(url_for('edit_photo', photo_id=photo_id))
 
     flash_errors(form)
-    return render_template('edit-photo.html', form = form, title = 'Edit photo %s' % photo.title, photo = photo)
+    return render_template('edit-photo.html', form=form, title='Edit photo %s' % photo.title, photo=photo)
 
-@app.route('/delete-photo/<int:photo_id>', methods = ['GET', 'POST'])
+@app.route('/delete-photo/<int:photo_id>', methods=['GET', 'POST'])
 @login_required
 def delete_photo(photo_id):
-    photo = Photo.query.filter_by(id = photo_id).first()
+    photo = Photo.query.filter_by(id=photo_id).first()
     if not photo:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    slide = Slide.query.filter_by(id = photo.slide_id).first()
+    slide = Slide.query.filter_by(id=photo.slide_id).first()
     if not slide:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    journey = Journey.query.filter_by(id = slide.journey_id, user_id = current_user.id).first()
+    journey = Journey.query.filter_by(id=slide.journey_id, user_id=current_user.id).first()
     if not journey:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    form = DeletePhotoForm(photo_id = photo.id)
+    form = DeletePhotoForm(photo_id=photo.id)
     if form.validate_on_submit():
         Photo.query.filter(Photo.id == photo_id).delete()
         db.session.commit()
         flash('Photo successfully deleted.', 'success')
-        return redirect(url_for('edit_slide', slide_id = slide.id))
+        return redirect(url_for('edit_slide', slide_id=slide.id))
 
     flash_errors(form)
-    return render_template('delete-photo.html', form = form, photo = photo, title = 'Delete photo %s' % photo.title)
+    return render_template('delete-photo.html', form=form, photo=photo, title='Delete photo %s' % photo.title)
 
-@app.route('/view-photo/<int:photo_id>', methods = ['GET'])
+@app.route('/view-photo/<int:photo_id>', methods=['GET'])
 def view_photo(photo_id):
-    photo = Photo.query.filter_by(id = photo_id).first()
+    photo = Photo.query.filter_by(id=photo_id).first()
     if not photo:
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
-    return render_template('view-photo.html', photo = photo)
+    return render_template('view-photo.html', photo=photo, title=photo.title)
 
 # USERS
 
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated():
         return redirect(request.referrer or '/')
@@ -295,7 +295,7 @@ def login():
         flash('Login and password don\'t match', 'danger')
 
     flash_errors(form)
-    return render_template('login.html', form = form, title = 'Sign In')
+    return render_template('login.html', form=form, title='Sign In')
 
 @app.route('/logout')
 @login_required
@@ -304,7 +304,7 @@ def logout():
     flash('Logged out successfully.', 'success')
     return redirect('/')
 
-@app.route('/register', methods = ['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated():
         return redirect(request.referrer or '/')
@@ -324,7 +324,7 @@ def register():
             return redirect(url_for('register'))
 
     flash_errors(form)
-    return render_template('register.html', form = form, title = 'Register')
+    return render_template('register.html', form=form, title='Register')
 
 @app.route('/user/<int:user_id>')
 def view_user(user_id):
@@ -333,13 +333,13 @@ def view_user(user_id):
         flash(BAD_KITTY, 'danger')
         return redirect(url_for('index'))
 
-    return render_template('view-user.html', user=user)
+    return render_template('view-user.html', user=user, title=user.login)
 
-@app.route('/me', methods = ['GET', 'POST'])
+@app.route('/me', methods=['GET', 'POST'])
 @login_required
 def me():
-    journeys = Journey.query.filter_by(user_id = current_user.id)
-    return render_template('me.html', journeys = journeys, title = 'My Account')
+    journeys = Journey.query.filter_by(user_id=current_user.id)
+    return render_template('me.html', journeys=journeys, title='My Account')
 
 @login_manager.unauthorized_handler
 def unauthorized():
