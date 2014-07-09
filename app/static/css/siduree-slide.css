@@ -31,7 +31,7 @@ body, html {
     left: 0;
     right: 0;
     color: #C0C0C0;
-    background-color: rgba(192, 192, 192, 0.5);
+    background-color: rgba(192, 192, 192, 0.8);
 }
 
 .photo-content-head {
@@ -42,6 +42,7 @@ body, html {
     padding-left: 20px;
     padding-right: 20px;
     margin-bottom: 10px;
+    font-size: 14pt;
     color: black;
 }
 
