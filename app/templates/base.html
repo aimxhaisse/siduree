@@ -65,7 +65,9 @@
 	  {% endif %}
 
         </ul>
-        <h3 class="text-muted"><a href="{{ url_for('index') }}">Siduree</a></h3>
+        <a href="{{ url_for('index') }}">
+	  <img src="/static/img/logo-white.png" />
+	</a>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
