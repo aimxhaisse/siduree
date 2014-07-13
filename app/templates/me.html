@@ -2,42 +2,39 @@
 {% set active_page = 'user' %}
 {% block content %}
 <div class="container">
-  <h1>My Account</h1>
-  <a class="btn btn-lg btn-success" href="{{ url_for('view_user', user_id=current_user.id) }}" role="button">View Profile</a>
-  <h2>Journeys</h2>
-  {% if journeys %}
-  <table class="table-bordered table">
-    <tbody>
-      {% for journey in journeys %}
-      <tr>
-	<td class="col-md-10">
-	  <a href="{{ url_for('view_journey', journey_id = journey.id) }}">
-	    <button class="btn btn-default">
-	      {{journey.title}}
-	    </button>
-	  </a>
-	</td>
-	<td class="col-md-1">
-	  <a href="{{ url_for('delete_journey', journey_id = journey.id) }}">
-	    <button class="btn btn-default">
-	      <span class="glyphicon glyphicon-remove"></span>
-	    </button>
-	  </a>
-	</td>
-	<td class="col-md-1">
-	  <a href="{{ url_for('edit_journey', journey_id = journey.id) }}">
-	    <button class="btn btn-default">
-	      <span class="glyphicon glyphicon-pencil"></span>
-	    </button>
-	  </a>
-	</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p>You don't have any journey (yet).</p>
-  {% endif %}
-  <a class="btn btn-lg btn-success" href="{{ url_for('new_journey') }}" role="button">New Journey</a>
+  <h1>My Journeys</h1>
+
+  <div class="row">
+    {% for journey in journeys %}
+    <div class="col-md-6">
+      <div class="thumbnail">
+	<a href="{{ url_for('view_journey', journey_id=journey.id) }}">
+	  <img src="{{ url_for('static', filename = journey.get_cover()) }}" alt="{{ journey.title }}">
+	</a>
+	<div class="caption">
+          <h3>{{ journey.title }}</h3>
+	  <p>
+	    <a href="{{ url_for('delete_journey', journey_id = journey.id) }}">
+	      <button class="btn btn-default">
+		<span class="glyphicon glyphicon-remove"></span>
+	      </button>
+	    </a>
+	    <a href="{{ url_for('edit_journey', journey_id = journey.id) }}">
+	      <button class="btn btn-default">
+		<span class="glyphicon glyphicon-pencil"></span>
+	      </button>
+	    </a>
+	  </p>
+	  <p>
+	    {{ journey.description }}
+	  </p>
+	</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <a class="btn btn-lg btn-success" href="{{ url_for('new_journey') }}" role="button">Create a Journey</a>
+
 </div>
 {% endblock %}

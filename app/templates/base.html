@@ -15,8 +15,8 @@
     <link href="/static/css/siduree.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <!--[if lt IE 9]> 
+     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
@@ -24,37 +24,48 @@
   <body>
 
     <div class="container">
-      <div class="header">
+
+      <div class="header navbar-collapse">
         <ul class="nav nav-pills pull-right"> 
 
 	  {% if current_user.is_authenticated() %}
+          <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	      <span class="glyphicon glyphicon-user" />
+	      {{ current_user.login }} <span class="caret"></span>
+	    </a>
+	    <ul class="dropdown-menu" role="menu">
+              <li>
+		<a href="{{ url_for('view_user', user_id=current_user.id) }}">
+		  <span class="glyphicon glyphicon-eye-open" />
+		  Profile
+		</a>
+	      </li>
+              <li>
+		<a href="{{ url_for('me') }}">
+		  <span class="glyphicon glyphicon-cog" />
+		  Account
+		</a>
+	      </li>
+	      <li>
+		<a href="{{ url_for('logout') }}">
+		  <span class="glyphicon glyphicon-off" />
+		  Logout
+		</a>
+	      </li>
+	    </ul>
+	  </li>
+	  {% else %}
           <li>
-	    <a href="{{ url_for('logout') }}">
-	      <span class="glyphicon glyphicon-off"></span>
+	    <a href="{{ url_for('login') }}">
+	      <span class="glyphicon glyphicon-user" />
+	      Login
 	    </a>
 	  </li>
 	  {% endif %}
 
-          <li class="{% if active_page == 'user' %}active{% endif %}">
-	    <a href="{% if current_user.is_authenticated() %}{{ url_for('me') }}{% else %}{{ url_for('login') }}{% endif %}">
-	      <span class="glyphicon glyphicon-user"></span>
-	    </a>
-	  </li>
-
-          <li class="{% if active_page == 'about' %}active{% endif %}">
-	    <a href="{{ url_for('about') }}">
-	      <span class="glyphicon glyphicon-info-sign"></span>
-	    </a>
-	  </li>
-
-          <li class="{% if active_page == 'home' %}active{% endif %}">
-	    <a href="{{ url_for('index') }}">
-	      <span class="glyphicon glyphicon-home"></span>
-	    </a>
-	  </li>
-
         </ul>
-        <h3 class="text-muted"><a href="{{ url_for('index') }}">Siduree</a>{% if current_user.is_authenticated() %} <small>Hello {{ current_user.login }}!</small>{% endif %}</h3>
+        <h3 class="text-muted"><a href="{{ url_for('index') }}">Siduree</a></h3>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -72,6 +83,9 @@
       <div class="footer">
         <p>&copy; Siduree 2014</p>
       </div>
+
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
 
     </div>
 
