@@ -46,7 +46,7 @@ def new_journey():
         journey.create(form.data['title'], form.data['description'], current_user.id)
         db.session.add(journey)
         db.session.commit()
-        flash('Journey %s successfully created.' % journey.title, 'success')
+        flash('Journey %s created, you can now add slides to your journey.' % journey.title, 'success')
         return redirect(url_for('new_slide', journey_id=journey.id))
 
     flash_errors(form)
@@ -109,8 +109,8 @@ def new_slide(journey_id):
         slide.create(form.data['title'], form.data['description'], journey_id)
         db.session.add(slide)
         db.session.commit()
-        flash('Slide added to journey', 'success')
-        return redirect(url_for('edit_slide', slide_id=slide.id))
+        flash('Slide added to journey, you can now add photos to your slide.', 'success')
+        return redirect(url_for('new_photo', slide_id=slide.id))
 
     flash_errors(form)
     return render_template('new-slide.html', form=form, title='New Slide')
